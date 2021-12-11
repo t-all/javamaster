@@ -14,5 +14,5 @@ public interface ReadWriteDao <K extends Serializable, T> extends ReadOnlyDao<K,
     void deleteWithCascadeEnable(T entity);
     void deleteAll(Collection entities);
     void updateAll(Iterable<? extends T> entities);
-    void updateFieldById(String fieldName, String fieldValue, long id);
+    void updateFieldById(String fieldName, String fieldValue, K id) throws NoSuchFieldException, IllegalAccessException;
 }
