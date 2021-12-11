@@ -15,11 +15,3 @@ public interface ReadOnlyDao <K extends Serializable, T>{
     boolean isExistAllByIds(K[] ids);
     List getByField(String fieldName, String fieldValue);
 }
-
-//    @Override
-//    public boolean isExistById(Serializable id) {
-//
-//        return (boolean) entityManager.createQuery("SELECT t.type FROM" + clazz.getName() + " t WHERE u.id=:id")
-//                .setParameter("id", id)
-//                .getSingleResult();
-//    }
