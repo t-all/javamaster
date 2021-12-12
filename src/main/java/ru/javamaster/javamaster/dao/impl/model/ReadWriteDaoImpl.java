@@ -3,28 +3,25 @@ package ru.javamaster.javamaster.dao.impl.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.assertj.core.util.Preconditions;
-import org.hibernate.Metamodel;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.util.Assert;
 import ru.javamaster.javamaster.dao.abstr.model.ReadWriteDao;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Table;
-import javax.persistence.metamodel.EntityType;
+import javax.persistence.OneToMany;
 import java.io.Serializable;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
-public abstract class ReadWriteDaoImpl<K extends Serializable, T> implements ReadWriteDao<K, T>, JpaRepository<T,K> {
+public abstract class ReadWriteDaoImpl<K extends Serializable, T> implements ReadWriteDao<K, T> {
 
     private EntityManager entityManager;
     private Class<T> entityClass;
-
-//TODO: Unchecked cast: 'java.lang.reflect.Type' to 'java.lang.Class<T>'
-//      Inspection info: Reports the code in which an unchecked warning is issued by the compiler.
 
 //    @SuppressWarnings("unchecked")
     public ReadWriteDaoImpl(Class<T> entityClass, EntityManager entityManager) {
@@ -52,7 +49,7 @@ public abstract class ReadWriteDaoImpl<K extends Serializable, T> implements Rea
     @SafeVarargs
     @Override
     public final void persistAll(T... entities) {
-        Assert.notNull(entities, "Entities must not be null!");
+        Assert.notEmpty(entities, "Entities must not be null!");
 
         entityManager.getTransaction().begin();
         for (T entity : entities) {
@@ -67,7 +64,7 @@ public abstract class ReadWriteDaoImpl<K extends Serializable, T> implements Rea
     @SuppressWarnings("rawtypes")
     @Override
     public void persistAll(Collection entities) {
-        Assert.notNull(entities, "Entities must not be null!");
+        Assert.notEmpty(entities, "Entities must not be null!");
 
         entityManager.getTransaction().begin();
         for (Object entity: entities) {
@@ -96,25 +93,20 @@ public abstract class ReadWriteDaoImpl<K extends Serializable, T> implements Rea
      *           (reference to string in table)
      */
     @Override
-    public void deleteWithCascadeIgnore(K id) {
+    public void deleteWithCascadeIgnore(K id) throws NoSuchFieldException, IllegalAccessException {
         Assert.notNull(id, "ID must not be null!");
+        // Entity for delete
+        T deletedEntity = getByKey(id);
+        // Take list fields with Annotation @OneToMany
+        List<Field> fields = getAnnotationFields(deletedEntity, OneToMany.class);
 
-// Take entity table name for native query string
-        Metamodel metamodel = (Metamodel) entityManager.getMetamodel();
-        EntityType<T> entityType = metamodel.entity(entityClass);
-        Table table = entityClass.getAnnotation(Table.class);
-        String tableName = (table == null) ? entityType.getName().toLowerCase() : table.name();
-
-// Create query string
-        StringBuilder queryString = new StringBuilder();
-        queryString.append("delete from ").append(tableName).append(" where id = ?");
-
-// Begin transaction and delete
-        entityManager.getTransaction().begin();
-        entityManager.createNativeQuery(queryString.toString())
-                .setParameter(1, id)
-                .executeUpdate();
-        entityManager.getTransaction().commit();
+        if(!fields.isEmpty()){
+            for (Field f: fields) {
+        // Overwriting foreign keys, replacing field values with null
+                updateFieldById(f.getName(), null, id);
+            }
+        }
+        deleteWithCascadeEnable(id);
     }
 
     /**
@@ -150,10 +142,11 @@ public abstract class ReadWriteDaoImpl<K extends Serializable, T> implements Rea
     @SuppressWarnings("rawtypes")
     @Override
     public void deleteAll(Collection entities) {
-        Assert.notNull(entities, "Entities must not be null!");
+        Assert.notEmpty(entities, "Entities must not be null!");
 
         entityManager.getTransaction().begin();
         for (Object entity: entities) {
+            Assert.notNull(entity, "Entity must not be null!");
             entityManager.remove(entity);
         }
         entityManager.getTransaction().commit();
@@ -175,6 +168,7 @@ public abstract class ReadWriteDaoImpl<K extends Serializable, T> implements Rea
         Iterator<? extends T> iterator = entities.iterator();
         while(iterator.hasNext()) {
             T entity = iterator.next();
+            Assert.notNull(entity, "Entity must not be null!");
             entityManager.merge(entity);
         }
         entityManager.getTransaction().commit();
@@ -196,5 +190,20 @@ public abstract class ReadWriteDaoImpl<K extends Serializable, T> implements Rea
         sField.set(entity, fieldValue);
         entityManager.merge(entity);
         entityManager.getTransaction().commit();
+    }
+
+    /**
+     * @param entityClass The class from which you want to get a list of annotated fields
+     * @param annotationClass Annotation which field should be marked
+     * @return List of class fields marked with the passed annotation
+     */
+    public List<Field> getAnnotationFields(T entityClass, Class<? extends Annotation> annotationClass){
+        ArrayList<Field> fields = new ArrayList<>();
+        for(Field field : entityClass.getClass().getDeclaredFields()) {
+            if (field.getAnnotation(annotationClass) != null) {
+                fields.add(field);
+            }
+        }
+        return fields;
     }
 }

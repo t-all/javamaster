@@ -9,7 +9,7 @@ public interface ReadWriteDao <K extends Serializable, T> extends ReadOnlyDao<K,
     void persistAll(T... entities);
     void persistAll(Collection entities);
     T update(T e);
-    void deleteWithCascadeIgnore(K id);
+    void deleteWithCascadeIgnore(K id) throws NoSuchFieldException, IllegalAccessException;
     void deleteWithCascadeEnable(K id);
     void deleteWithCascadeEnable(T entity);
     void deleteAll(Collection entities);
