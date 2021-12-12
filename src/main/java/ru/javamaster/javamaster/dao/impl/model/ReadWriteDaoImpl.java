@@ -3,11 +3,14 @@ package ru.javamaster.javamaster.dao.impl.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.assertj.core.util.Preconditions;
+import org.hibernate.Metamodel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.util.Assert;
 import ru.javamaster.javamaster.dao.abstr.model.ReadWriteDao;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Table;
+import javax.persistence.metamodel.EntityType;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.Collection;
@@ -18,16 +21,16 @@ import java.util.Iterator;
 public abstract class ReadWriteDaoImpl<K extends Serializable, T> implements ReadWriteDao<K, T>, JpaRepository<T,K> {
 
     private EntityManager entityManager;
-    private Class<T> clazz;
+    private Class<T> entityClass;
 
 //TODO: Unchecked cast: 'java.lang.reflect.Type' to 'java.lang.Class<T>'
 //      Inspection info: Reports the code in which an unchecked warning is issued by the compiler.
 
 //    @SuppressWarnings("unchecked")
-    public ReadWriteDaoImpl(Class<T> clazz, EntityManager entityManager) {
+    public ReadWriteDaoImpl(Class<T> entityClass, EntityManager entityManager) {
 //        this.clazz = (Class<T>) ((ParameterizedType) getClass()
 //                .getGenericSuperclass()).getActualTypeArguments()[0];
-        this.clazz = Preconditions.checkNotNull(clazz);
+        this.entityClass = Preconditions.checkNotNull(entityClass);
         this.entityManager = getEntityManager();
     }
 
@@ -87,7 +90,7 @@ public abstract class ReadWriteDaoImpl<K extends Serializable, T> implements Rea
         return e;
     }
 
-//TODO: I don’t know how to implement it yet.
+//TODO: I doubt the correctness of this approach, but others are not known to me.
     /**
      * @param id Primary key for identification entity in database
      *           (reference to string in table)
@@ -96,8 +99,21 @@ public abstract class ReadWriteDaoImpl<K extends Serializable, T> implements Rea
     public void deleteWithCascadeIgnore(K id) {
         Assert.notNull(id, "ID must not be null!");
 
-        entityManager.getTransaction().begin();
+// Take entity table name for native query string
+        Metamodel metamodel = (Metamodel) entityManager.getMetamodel();
+        EntityType<T> entityType = metamodel.entity(entityClass);
+        Table table = entityClass.getAnnotation(Table.class);
+        String tableName = (table == null) ? entityType.getName().toLowerCase() : table.name();
 
+// Create query string
+        StringBuilder queryString = new StringBuilder();
+        queryString.append("delete from ").append(tableName).append(" where id = ?");
+
+// Begin transaction and delete
+        entityManager.getTransaction().begin();
+        entityManager.createNativeQuery(queryString.toString())
+                .setParameter(1, id)
+                .executeUpdate();
         entityManager.getTransaction().commit();
     }
 
@@ -110,7 +126,7 @@ public abstract class ReadWriteDaoImpl<K extends Serializable, T> implements Rea
         Assert.notNull(id, "ID must not be null!");
 
         entityManager.getTransaction().begin();
-        entityManager.createQuery("Delete t.type from " + clazz.getName() + " where t.id = :id").setParameter("id", id).executeUpdate();
+        entityManager.createQuery("Delete t.type from " + entityClass.getName() + " where t.id = :id").setParameter("id", id).executeUpdate();
         //entityManager.remove(getByKey(id));
         entityManager.getTransaction().commit();
     }
