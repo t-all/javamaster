@@ -18,7 +18,6 @@ public class Chapter {
     private String position;
 
     @ManyToOne
-//    @JoinColumn(name = "module_id")
     private ModuleEntity module;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "chapter")
