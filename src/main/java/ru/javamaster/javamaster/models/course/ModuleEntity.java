@@ -23,11 +23,10 @@ public class ModuleEntity {
     private String position;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "module")
-    @JoinColumn(name = "module_id")
     private List<Chapter> chapters;
 
     @ManyToOne
-    @JoinColumn(name = "courses_id")
+    @JoinColumn(name = "module_id")
     private Course course;
 
     public ModuleEntity(String name, String description, String position, List<Chapter> chapters, Course course) {
