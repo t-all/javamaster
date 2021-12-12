@@ -23,6 +23,7 @@ public class ModuleEntity {
     private String position;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "module")
+    @JoinColumn(name = "module_id")
     private List<Chapter> chapters;
 
     @ManyToOne
