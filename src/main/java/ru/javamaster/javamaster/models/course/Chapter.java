@@ -28,6 +28,6 @@ public class Chapter {
     private List<CourseTask> courseTasks = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "chapter")
-    private List<StudentProgressStep> studentProgressSteps;
+    private List<StudentProgressStep> studentProgressSteps = new ArrayList<>();
 
 }

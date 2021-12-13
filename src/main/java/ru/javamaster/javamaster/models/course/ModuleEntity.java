@@ -3,6 +3,7 @@ package ru.javamaster.javamaster.models.course;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -26,8 +27,8 @@ public class ModuleEntity {
     private String position;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "module")
-    @JoinColumn(name = "module_id")
-    private List<Chapter> chapters;
+    @JoinColumn(name = "course_id")
+    private List<Chapter> chapters = new ArrayList<>();
 
     @ManyToOne
     private Course course;
