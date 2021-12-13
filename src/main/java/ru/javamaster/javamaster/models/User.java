@@ -22,47 +22,33 @@ public class User {
     @Column(nullable = false)
     private Long id;
 
-    @Column(name = "email", unique = true, nullable = false)
-    /**
-     * минимальная длина поля email 1 символ, максимальная 60 символов
-     */
-    @Size(min = 1, max = 50)
+    @Column(name = "email", unique = true)
+    @Size(min = 1, max = 50, message = "минимальная длина поля email 1 символ, максимальная 60 символов")
     @NonNull
     private String email;
 
-    @Column(name = "first_name", nullable = false)
+    @Column(name = "first_name")
+    @Size(min = 1, message = "минимальная длина поля firstName 1 символ")
     @NonNull
-    /**
-     * минимальная длина поля firstName 1 символ
-     */
-    @Size(min = 1)
     private String firstName;
 
-    @Column(name = "last_name", nullable = false)
-    /**
-     * минимальная длина поля lastName 1 символ
-     */
-    @Size(min = 1)
+    @Column(name = "last_name")
+    @Size(min = 1, message = "минимальная длина поля lastName 1 символ")
     @NonNull
     private String lastName;
 
-    /**
-     * минимальная длина поля password 6 символов, максимальная 60 символов
-     */
-    @Size(min = 6, max = 60)
+    @Size(min = 6, max = 60, message = "минимальная длина поля password 6 символов, максимальная 60 символов")
     @NonNull
-    @NotNull
     private String password;
 
     @Type(type = "org.hibernate.type.LocalDateType")
     @NonNull
-    @NotNull
     private LocalDate birthday;
 
     private Boolean enable = true;
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Role.class)
-    @JoinColumn(name = "role_id", nullable = false)
+    @JoinColumn(name = "role_id")
     @NonNull
     private Role role;
 
