@@ -7,12 +7,12 @@ import java.util.List;
 
 @Entity
 @Table(name = "modules")
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
 @NoArgsConstructor
 public class ModuleEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
     @Column
@@ -23,17 +23,9 @@ public class ModuleEntity {
     private String position;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "module")
-    @JoinColumn(name = "moduleEntity_id")
+    @JoinColumn(name = "module_id")
     private List<Chapter> chapters;
 
     @ManyToOne
     private Course course;
-
-    public ModuleEntity(String name, String description, String position, List<Chapter> chapters, Course course) {
-        this.name = name;
-        this.description = description;
-        this.position = position;
-        this.chapters = chapters;
-        this.course = course;
-    }
 }

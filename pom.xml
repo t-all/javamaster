@@ -11,7 +11,7 @@
 	<groupId>ru.javamaster</groupId>
 	<artifactId>javamaster</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>java_master</name>
+	<name>javamaster</name>
 	<description>Education project for JavaDevelopers</description>
 	<properties>
 		<java.version>11</java.version>
