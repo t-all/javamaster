@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Repository
-public class ReadOnlyDaoImpl<K extends Serializable, T> implements ReadOnlyDao {
+public class ReadOnlyDaoImpl<K extends Serializable, T> implements ReadOnlyDao<K, T> {
 
     protected Class<T> aClass;
 

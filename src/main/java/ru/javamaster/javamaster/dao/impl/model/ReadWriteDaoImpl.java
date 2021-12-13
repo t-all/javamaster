@@ -1,19 +1,26 @@
 package ru.javamaster.javamaster.dao.impl.model;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.assertj.core.util.Preconditions;
+import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+
 import ru.javamaster.javamaster.dao.abstr.model.ReadWriteDao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.OneToMany;
+import javax.persistence.PersistenceException;
 import javax.persistence.Table;
 import javax.persistence.metamodel.EntityType;
 import javax.persistence.metamodel.Metamodel;
+
 import java.io.Serializable;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -21,46 +28,46 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Data
-@NoArgsConstructor
-public abstract class ReadWriteDaoImpl<K extends Serializable, T> implements ReadWriteDao<K, T> {
+//connect logger from lombok
+@Slf4j
+@Repository
+public class ReadWriteDaoImpl<K extends Serializable, T> extends ReadOnlyDaoImpl <K, T> implements ReadWriteDao<K, T> {
 
-    private EntityManager entityManager;
-    private Class<T> entityClass;
 
-//    @SuppressWarnings("unchecked")
-    public ReadWriteDaoImpl(Class<T> entityClass, EntityManager entityManager) {
-//        this.clazz = (Class<T>) ((ParameterizedType) getClass()
-//                .getGenericSuperclass()).getActualTypeArguments()[0];
-        this.entityClass = Preconditions.checkNotNull(entityClass);
-        this.entityManager = getEntityManager();
+    public ReadWriteDaoImpl(Class<T> aClass, EntityManager entityManager) {
+        super(aClass, entityManager);
     }
 
     /**
      * @param entity Entity for write to database
      */
     @Override
+    @Transactional(propagation = Propagation.MANDATORY)
     public void persist(T entity) {
         Assert.notNull(entity, "Entity must not be null!");
 
-        entityManager.getTransaction().begin();
-        entityManager.persist(entity);
-        entityManager.getTransaction().commit();
+        try {
+            entityManager.persist(entity);
+        } catch (PersistenceException e) {
+            log.warn("IN method persist(T entity) error -> {}", e.getMessage());
+        }
     }
 
     /**
      * @param entities Entity's for save in database
      */
-    @SafeVarargs
     @Override
-    public final void persistAll(T... entities) {
+    @Transactional(propagation = Propagation.MANDATORY)
+    public void persistAll(T... entities) {
         Assert.notEmpty(entities, "Entities must not be null!");
 
-        entityManager.getTransaction().begin();
-        for (T entity : entities) {
-            entityManager.persist(entity);
+        try {
+            for (T entity : entities) {
+                entityManager.persist(entity);
+            }
+        } catch (PersistenceException e) {
+            log.warn("IN method persistAll(T... entities) error -> {}", e.getMessage());
         }
-        entityManager.getTransaction().commit();
     }
 
     /**
@@ -68,14 +75,16 @@ public abstract class ReadWriteDaoImpl<K extends Serializable, T> implements Rea
      */
     @SuppressWarnings("rawtypes")
     @Override
+    @Transactional(propagation = Propagation.MANDATORY)
     public void persistAll(Collection entities) {
         Assert.notEmpty(entities, "Entities must not be null!");
-
-        entityManager.getTransaction().begin();
-        for (Object entity: entities) {
-            entityManager.persist(entity);
+        try {
+            for (Object entity: entities) {
+                entityManager.persist(entity);
+            }
+        } catch (PersistenceException e) {
+            log.warn("IN method persistAll(Collection entities) error -> {}", e.getMessage());
         }
-        entityManager.getTransaction().commit();
     }
 
     /**
@@ -83,12 +92,15 @@ public abstract class ReadWriteDaoImpl<K extends Serializable, T> implements Rea
      * @return Returns a refreshed entity from the database
      */
     @Override
+    @Transactional(propagation = Propagation.MANDATORY)
     public T update(T e) {
         Assert.notNull(e, "Entity must not be null!");
 
-        entityManager.getTransaction().begin();
-        e = entityManager.merge(e);
-        entityManager.getTransaction().commit();
+        try {
+            e = entityManager.merge(e);
+        } catch (Exception ex) {
+            log.warn("IN method T update(T e) error -> {}", ex.getMessage());
+        }
         return e;
     }
 
@@ -119,13 +131,17 @@ public abstract class ReadWriteDaoImpl<K extends Serializable, T> implements Rea
      *           (reference to string in table)
      */
     @Override
+    @Transactional(propagation = Propagation.MANDATORY)
     public void deleteWithCascadeEnable(K id) {
         Assert.notNull(id, "ID must not be null!");
 
-        entityManager.getTransaction().begin();
-        entityManager.createQuery("Delete t.type from " + entityClass.getName() + " where t.id = :id").setParameter("id", id).executeUpdate();
-        //entityManager.remove(getByKey(id));
-        entityManager.getTransaction().commit();
+        try {
+            entityManager.createQuery("Delete t.type from " + aClass.getName() + " where t.id = :id")
+                    .setParameter("id", id)
+                    .executeUpdate();
+        } catch (PersistenceException e) {
+            log.warn("IN method deleteWithCascadeEnable(K id) error -> {}", e.getMessage());
+        }
     }
 
     /**
@@ -133,12 +149,15 @@ public abstract class ReadWriteDaoImpl<K extends Serializable, T> implements Rea
      *               (string in database table)
      */
     @Override
+    @Transactional(propagation = Propagation.MANDATORY)
     public void deleteWithCascadeEnable(T entity) {
         Assert.notNull(entity, "Entity must not be null!");
 
-        entityManager.getTransaction().begin();
-        entityManager.remove(entity);
-        entityManager.getTransaction().commit();
+        try {
+            entityManager.remove(entity);
+        } catch (PersistenceException e) {
+            log.warn("IN method deleteWithCascadeEnable(T entity) error -> {}", e.getMessage());
+        }
     }
 
     /**
@@ -146,37 +165,38 @@ public abstract class ReadWriteDaoImpl<K extends Serializable, T> implements Rea
      */
     @SuppressWarnings("rawtypes")
     @Override
+    @Transactional(propagation = Propagation.MANDATORY)
     public void deleteAll(Collection entities) {
         Assert.notEmpty(entities, "Entities must not be null!");
 
-        entityManager.getTransaction().begin();
-        for (Object entity: entities) {
-            Assert.notNull(entity, "Entity must not be null!");
-            entityManager.remove(entity);
+        try {
+            for (Object entity: entities) {
+                Assert.notNull(entity, "Entity must not be null!");
+                entityManager.remove(entity);
+            }
+        } catch (PersistenceException e) {
+            log.warn("IN method deleteAll(Collection entities) error -> {}", e.getMessage());
         }
-        entityManager.getTransaction().commit();
     }
 
     /**
      * @param entities Collection entity's for update from database
      */
     @Override
+    @Transactional(propagation = Propagation.MANDATORY)
     public void updateAll(Iterable<? extends T> entities) {
         Assert.notNull(entities, "Entities must not be null!");
 
-        entityManager.getTransaction().begin();
-
-//        for (T entity: entities) {
-//            entityManager.merge(entity);
-//        }
-
-        Iterator<? extends T> iterator = entities.iterator();
-        while(iterator.hasNext()) {
-            T entity = iterator.next();
-            Assert.notNull(entity, "Entity must not be null!");
-            entityManager.merge(entity);
+        try {
+            Iterator<? extends T> iterator = entities.iterator();
+            while(iterator.hasNext()) {
+                T entity = iterator.next();
+                Assert.notNull(entity, "Entity must not be null!");
+                entityManager.merge(entity);
+            }
+        } catch (PersistenceException e) {
+            log.warn("IN method updateAll(Iterable<? extends T> entities) error -> {}", e.getMessage());
         }
-        entityManager.getTransaction().commit();
     }
 
     /**
@@ -185,16 +205,18 @@ public abstract class ReadWriteDaoImpl<K extends Serializable, T> implements Rea
      * @param id Primary key to find a record in a table
      */
     @Override
-    public void updateFieldById(String fieldName, String fieldValue, K id)
-            throws NoSuchFieldException, IllegalAccessException {
+    @Transactional(propagation = Propagation.MANDATORY)
+    public void updateFieldById(String fieldName, String fieldValue, K id) {
         Assert.notNull(id, "ID must not be null!");
 
-        entityManager.getTransaction().begin();
-        T entity = getByKey(id);
-        Field sField = entity.getClass().getField(fieldName);
-        sField.set(entity, fieldValue);
-        entityManager.merge(entity);
-        entityManager.getTransaction().commit();
+        try {
+            entityManager.createQuery("update " + aClass.getName() + " a set " + fieldName + " = :fieldValue where a.id = :id")
+                    .setParameter("fieldValue", fieldValue)
+                    .setParameter("id", id)
+                    .executeUpdate();
+        } catch (PersistenceException e) {
+            log.warn("IN method updateFieldById(String fieldName, String fieldValue, K id) error -> {}", e.getMessage());
+        }
     }
 
     /**
@@ -203,17 +225,22 @@ public abstract class ReadWriteDaoImpl<K extends Serializable, T> implements Rea
      * @return List of class fields marked with the passed annotation
      */
     @SafeVarargs
-    public final List<Field> getAnnotationFields(T entityClass, Class<? extends Annotation> ... annotationClasses){
+    private List<Field> getAnnotationFields(T entityClass, Class<? extends Annotation> ... annotationClasses){
 
+        log.info("Running util method - getAnnotationFields");
         List<Field> fields = new ArrayList<>();
 
-        Arrays.stream(annotationClasses).collect(Collectors.toList()).forEach(annotationClass -> {
-            for(Field field : entityClass.getClass().getDeclaredFields()) {
-                if (field.getAnnotation(annotationClass) != null) {
-                    fields.add(field);
+        try {
+            Arrays.stream(annotationClasses).collect(Collectors.toList()).forEach(annotationClass -> {
+                for(Field field : entityClass.getClass().getDeclaredFields()) {
+                    if (field.getAnnotation(annotationClass) != null) {
+                        fields.add(field);
+                    }
                 }
-            }
-        });
+            });
+        } catch (SecurityException | NullPointerException e) {
+            log.warn("IN util method getAnnotationFields error -> {}", e.getMessage());
+        }
         return fields;
     }
 
@@ -222,17 +249,27 @@ public abstract class ReadWriteDaoImpl<K extends Serializable, T> implements Rea
      * @param entityClass Entity class for which you need to determine the name of the table in the database
      * @return The name of the table in the database
      */
-    public String getTableName(EntityManager entityManager, Class<T> entityClass) {
+    private String getTableName(EntityManager entityManager, Class<T> entityClass) {
         /*
          * Check if the specified class is present in the metamodel.
          * Throws IllegalArgumentException if not.
+         * Check whether @Table annotation is present on the class.
          */
-        Metamodel meta = entityManager.getMetamodel();
-        EntityType<T> entityType = meta.entity(entityClass);
-
-        //Check whether @Table annotation is present on the class.
-        Table t = entityClass.getAnnotation(Table.class);
-
-        return (t == null) ? entityType.getName().toLowerCase() : t.name();
+        log.info("Running util method - getTableName");
+        Table t = null;
+        EntityType<T> entityType = null;
+        try {
+            Metamodel meta = entityManager.getMetamodel();
+            entityType = meta.entity(entityClass);
+            t = entityClass.getAnnotation(Table.class);
+        } catch (IllegalArgumentException | NullPointerException e) {
+            log.warn("IN util method getTableName error -> {}", e.getMessage());
+        }
+        if ((t == null)) {
+            Assert.notNull(entityType, "ID must not be null!");
+            return entityType.getName().toLowerCase();
+        } else {
+            return t.name();
+        }
     }
 }
