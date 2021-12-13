@@ -9,8 +9,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "studentProgressSteps")
-@NonNull
-
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class StudentProgressStep {
@@ -20,18 +19,22 @@ public class StudentProgressStep {
     @Column(name = "id")
     private Long id;
 
+    @NonNull
     @OneToOne
     @JoinColumn(name = "student_id")
     private Student student;
 
+    @NonNull
     @ManyToOne
     @JoinColumn(name = "course_id")
     Course course;
 
-    @ManyToOnen
+    @NonNull
+    @ManyToOne
     @JoinColumn(name = "module_id")
     ModuleEntity module;
 
+    @NonNull
     @ManyToOne
     @JoinColumn(name = "chapter_id")
     Chapter chapter;
