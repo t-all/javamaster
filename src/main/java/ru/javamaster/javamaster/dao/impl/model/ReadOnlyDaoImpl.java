@@ -60,10 +60,11 @@ public class ReadOnlyDaoImpl<K extends Serializable, T> implements ReadOnlyDao {
                 .getResultList();
     }
 
-    // не понимаю, какой должен быть результат
     @Override
     public boolean isExistAllByIds(Serializable[] ids) {
-        return false;
+        return (boolean)entityManager.createQuery("SELECT COUNT(ids) u FROM "+ aClass.getName() + "u WHERE u.ids=:ids")
+                .setParameter("ids", ids)
+                .getSingleResult();
     }
 
     @Override
