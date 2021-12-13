@@ -11,10 +11,10 @@ import java.util.List;
 @Repository
 public class ReadOnlyDaoImpl<K extends Serializable, T> implements ReadOnlyDao {
 
-    private Class<T> aClass;
+    protected Class<T> aClass;
 
     @PersistenceContext
-    private EntityManager entityManager;
+    protected EntityManager entityManager;
 
     public ReadOnlyDaoImpl(Class<T> aClass, EntityManager entityManager) {
         this.aClass = aClass;
