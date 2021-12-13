@@ -13,8 +13,10 @@ public class Chapter {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
     @Column
     private String name;
+
     @Column
     private String position;
 

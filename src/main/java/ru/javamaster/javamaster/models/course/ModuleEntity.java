@@ -15,10 +15,13 @@ public class ModuleEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
     @Column
     private String name;
+
     @Column
     private String description;
+
     @Column
     private String position;
 
