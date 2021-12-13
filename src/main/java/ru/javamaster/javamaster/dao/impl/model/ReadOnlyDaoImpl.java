@@ -43,7 +43,7 @@ public class ReadOnlyDaoImpl<K extends Serializable, T> implements ReadOnlyDao<K
 
     @Override
     public boolean isExistById(Serializable id) {
-        return (boolean) entityManager.createQuery("SELECT u FROM " + aClass.getName() + "u WHERE u.id=:id")
+        return (boolean) entityManager.createQuery("SELECT u FROM " + aClass.getName() + " u WHERE u.id=:id")
                 .setParameter("id", id)
                 .getSingleResult();
     }
@@ -54,8 +54,9 @@ public class ReadOnlyDaoImpl<K extends Serializable, T> implements ReadOnlyDao<K
     }
 
     @Override
+    @SuppressWarnings("rawtypes")
     public List getAllByIds(Iterable ids) {
-        return entityManager.createQuery("SELECT u FROM " + aClass.getName() + "u WHERE u.ids=:ids")
+        return entityManager.createQuery("SELECT u FROM " + aClass.getName() + " u WHERE u.ids=:ids")
                 .setParameter("ids", ids)
                 .getResultList();
     }
@@ -67,8 +68,9 @@ public class ReadOnlyDaoImpl<K extends Serializable, T> implements ReadOnlyDao<K
     }
 
     @Override
+    @SuppressWarnings("rawtypes")
     public List getByField(String fieldName, String fieldValue) {
-        return entityManager.createQuery("SELECT u FROM " + aClass.getName() + "u WHERE u." + fieldName + "=:value")
+        return entityManager.createQuery("SELECT u FROM " + aClass.getName() + " u WHERE u." + fieldName + "=:value")
                 .setParameter("value", fieldValue)
                 .getResultList();
     }
