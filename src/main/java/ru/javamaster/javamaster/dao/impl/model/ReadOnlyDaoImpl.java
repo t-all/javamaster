@@ -68,7 +68,7 @@ public class ReadOnlyDaoImpl<K extends Serializable, T> implements ReadOnlyDao {
 
     @Override
     public List getByField(String fieldName, String fieldValue) {
-        return entityManager.createQuery("SELECT u FROM " + aClass.getName() + " WHERE u.fieldName =:value")
+        return entityManager.createQuery("SELECT u FROM " + aClass.getName() + " WHERE u." + fieldName + "=:value")
                 .setParameter("value", fieldValue)
                 .getResultList();
     }
