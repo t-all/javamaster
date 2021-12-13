@@ -8,13 +8,18 @@ import ru.javamaster.javamaster.dao.abstr.model.ReadWriteDao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.metamodel.EntityType;
+import javax.persistence.metamodel.Metamodel;
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
@@ -194,16 +199,40 @@ public abstract class ReadWriteDaoImpl<K extends Serializable, T> implements Rea
 
     /**
      * @param entityClass The class from which you want to get a list of annotated fields
-     * @param annotationClass Annotation which field should be marked
+     * @param annotationClasses Annotation's which field should be marked
      * @return List of class fields marked with the passed annotation
      */
-    public List<Field> getAnnotationFields(T entityClass, Class<? extends Annotation> annotationClass){
-        ArrayList<Field> fields = new ArrayList<>();
-        for(Field field : entityClass.getClass().getDeclaredFields()) {
-            if (field.getAnnotation(annotationClass) != null) {
-                fields.add(field);
+    @SafeVarargs
+    public final List<Field> getAnnotationFields(T entityClass, Class<? extends Annotation> ... annotationClasses){
+
+        List<Field> fields = new ArrayList<>();
+
+        Arrays.stream(annotationClasses).collect(Collectors.toList()).forEach(annotationClass -> {
+            for(Field field : entityClass.getClass().getDeclaredFields()) {
+                if (field.getAnnotation(annotationClass) != null) {
+                    fields.add(field);
+                }
             }
-        }
+        });
         return fields;
+    }
+
+    /**
+     * @param entityManager Entity manager
+     * @param entityClass Entity class for which you need to determine the name of the table in the database
+     * @return The name of the table in the database
+     */
+    public String getTableName(EntityManager entityManager, Class<T> entityClass) {
+        /*
+         * Check if the specified class is present in the metamodel.
+         * Throws IllegalArgumentException if not.
+         */
+        Metamodel meta = entityManager.getMetamodel();
+        EntityType<T> entityType = meta.entity(entityClass);
+
+        //Check whether @Table annotation is present on the class.
+        Table t = entityClass.getAnnotation(Table.class);
+
+        return (t == null) ? entityType.getName().toLowerCase() : t.name();
     }
 }
