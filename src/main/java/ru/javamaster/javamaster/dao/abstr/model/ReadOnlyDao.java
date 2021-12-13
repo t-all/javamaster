@@ -4,7 +4,7 @@ import javax.persistence.EntityManager;
 import java.io.Serializable;
 import java.util.List;
 
-public interface ReadOnlyDao<K extends Serializable, T>{
+public interface ReadOnlyDao<K extends Serializable, T> {
     T getByKey(K id);
 
     T getProxy(K id);
