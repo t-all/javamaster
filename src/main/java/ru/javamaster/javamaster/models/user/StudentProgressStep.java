@@ -1,7 +1,6 @@
 package ru.javamaster.javamaster.models.user;
 
 import lombok.*;
-import org.springframework.lang.Nullable;
 import ru.javamaster.javamaster.models.course.Chapter;
 import ru.javamaster.javamaster.models.course.ModuleEntity;
 
