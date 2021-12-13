@@ -110,7 +110,7 @@ public class ReadWriteDaoImpl<K extends Serializable, T> extends ReadOnlyDaoImpl
      *           (reference to string in table)
      */
     @Override
-    public void deleteWithCascadeIgnore(K id) throws NoSuchFieldException, IllegalAccessException {
+    public void deleteWithCascadeIgnore(K id){
         Assert.notNull(id, "ID must not be null!");
         // Entity for delete
         T deletedEntity = getByKey(id);
