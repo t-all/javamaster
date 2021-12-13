@@ -17,23 +17,22 @@ public class CourseInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @Lob
     private Long id;
 
-    @Lob
     @Column(name = "description")
     private String description;
 
     @Column(name = "filling")
     private Integer filling;
 
+    @Lob
     @Column(name = "transit_time")
     private String transitTime;
 
-    @Lob
     @Column(name = "demands")
     private String demands;
 
-    @Lob
     @Column(name = "target")
     private Integer target;
 

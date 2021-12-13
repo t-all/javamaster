@@ -28,14 +28,13 @@ public class Course {
     @Column(name = "name")
     private String name;
 
+    @Type(type = "org.hibernate.type.NumericBooleanType")
     @Column(name = "html_body")
     private String htmlBody;
 
-    @Type(type = "org.hibernate.type.NumericBooleanType")
     @Column(name = "is_available")
     private Boolean isAvailable = false;
 
-    @Type(type = "org.hibernate.type.NumericBooleanType")
     @Column(name = "is_tutor")
     private Boolean isTutor = false;
 
@@ -49,7 +48,7 @@ public class Course {
     private Integer creatingTime;
 
 
-    @Min(1)
+    @Min(value = 1, message = "Minimum value is {value}")
     @Column(name = "position")
     private Integer position;
 
