@@ -1,12 +1,15 @@
 package ru.javamaster.javamaster.models;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Data
+@Setter
+@Getter
+@EqualsAndHashCode(of = {"id","avatarLink","name","email","about"})
+@ToString(of = {"id","avatarLink","name","email","about"})
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "course_authors")
 public class CourseAuthor {
@@ -28,10 +31,4 @@ public class CourseAuthor {
     @Column(name = "about")
     private String about;
 
-    public CourseAuthor(String avatarLink, String name, String email, String about) {
-        this.avatarLink = avatarLink;
-        this.name = name;
-        this.email = email;
-        this.about = about;
-    }
 }

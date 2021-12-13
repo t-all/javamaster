@@ -1,16 +1,22 @@
 package ru.javamaster.javamaster.models;
 
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.Type;
+
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-@Data
+@Setter
+@Getter
+@EqualsAndHashCode(of = {"id", "name", "htmlBody"})
+@ToString(of = {"id", "name", "htmlBody"})
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "courses")
 public class Course {
@@ -25,59 +31,49 @@ public class Course {
     @Column(name = "html_body")
     private String htmlBody;
 
+    @Type(type = "org.hibernate.type.NumericBooleanType")
     @Column(name = "is_available")
-    private boolean isAvailable = false;
+    private Boolean isAvailable = false;
 
+    @Type(type = "org.hibernate.type.NumericBooleanType")
     @Column(name = "is_tutor")
-    private boolean isTutor = false;
+    private Boolean isTutor = false;
 
     @Column(name = "percent")
-    private int percent;
+    private Integer percent;
 
     @Column(name = "local_date_time")
-
-    private int LocalDateTime;
+    private Integer LocalDateTime;
 
     @Column(name = "creating_time")
-    private int creatingTime;
+    private Integer creatingTime;
 
 
     @Min(1)
     @Column(name = "position")
-    private int position;
+    private Integer position;
 
-    public Course(String name, String htmlBody, boolean isAvailable, boolean isTutor, int percent, int localDateTime, int creatingTime, int position) {
-        this.name = name;
-        this.htmlBody = htmlBody;
-        this.isAvailable = isAvailable;
-        this.isTutor = isTutor;
-        this.percent = percent;
-        LocalDateTime = localDateTime;
-        this.creatingTime = creatingTime;
-        this.position = position;
-    }
-
-    @OneToMany
+    @OneToOne
     @JoinColumn(name = "courses_id")
     private CourseAuthor courseAuthor;
 
-    @OneToMany
+    @OneToOne
     @JoinColumn(name = "courses_id")
     private CourseInfo courseInfo;
 
-    @OneToMany
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "courses_id")
-    private List<Modules> modules;
+    private List<Modules> modules = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "courses_id")
+    private List<StudentProgressSteps> studentProgressSteps = new ArrayList<>();
 
     @OneToMany
     @JoinColumn(name = "courses_id")
-    private List<StudentProgressSteps> studentProgressSteps;
+    private List<StudentCourseTaskInfoList> studentCourseTaskInfoList = new ArrayList<>();
 
-    @OneToMany
-    @JoinColumn(name = "courses_id")
-    private List<StudentCourseTaskInfoList> studentCourseTaskInfoList;
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "courses_id")
     private Direction direction;
 

@@ -1,12 +1,15 @@
 package ru.javamaster.javamaster.models;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Data
+@Setter
+@Getter
+@EqualsAndHashCode(of = {"id", "description", "filling", "transitTime", "demands"})
+@ToString(of = {"id", "description", "filling", "transitTime", "demands"})
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "course_infos")
 public class CourseInfo {
@@ -16,30 +19,25 @@ public class CourseInfo {
     @Column(name = "id")
     private Long id;
 
+    @Lob
     @Column(name = "description")
     private String description;
 
     @Column(name = "filling")
-    private int filling;
+    private Integer filling;
 
     @Column(name = "transit_time")
     private String transitTime;
 
+    @Lob
     @Column(name = "demands")
     private String demands;
 
+    @Lob
     @Column(name = "target")
-    private int target;
+    private Integer target;
 
     @Column(name = "course_pic_url")
     private String coursePicUrl;
 
-    public CourseInfo(String description, int filling, String transitTime, String demands, int target, String coursePicUrl) {
-        this.description = description;
-        this.filling = filling;
-        this.transitTime = transitTime;
-        this.demands = demands;
-        this.target = target;
-        this.coursePicUrl = coursePicUrl;
-    }
 }
