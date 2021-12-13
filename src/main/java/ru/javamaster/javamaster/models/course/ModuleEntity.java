@@ -31,5 +31,6 @@ public class ModuleEntity {
     private List<Chapter> chapters = new ArrayList<>();
 
     @ManyToOne
+    @JoinColumn(name = "course_id")
     private Course course;
 }
