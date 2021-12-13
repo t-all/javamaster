@@ -8,10 +8,12 @@ import java.util.List;
 
 @Entity
 @Table(name = "modules")
-@Data
+@EqualsAndHashCode (of = {"id", "name", "description", "position"})
+@ToString( of = {"id", "name", "description", "position"})
 @AllArgsConstructor
 @NoArgsConstructor
 public class ModuleEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

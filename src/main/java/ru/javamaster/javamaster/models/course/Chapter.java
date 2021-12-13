@@ -5,8 +5,8 @@ import java.util.ArrayList;
 
 @Entity
 @Table(name = "chapters")
-@EqualsAndHashCode (of = {"id", "name", "description", "position"})
-@ToString( of = {"id", "name", "description", "position"})
+@EqualsAndHashCode (of = {"id", "name", "position"})
+@ToString( of = {"id", "name", "position"})
 @AllArgsConstructor
 @NoArgsConstructor
 public class Chapter {
