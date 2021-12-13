@@ -1,59 +1,99 @@
 package ru.javamaster.javamaster.models;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
 @Getter
 @Setter
+@RequiredArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false)
     private Long id;
-    @Column(name = "email", unique = true, length = 50)
+
+    @Column(name = "email", unique = true, nullable = false)
+    /**
+     * минимальная длина поля email 1 символ, максимальная 60 символов
+     */
+    @Size(min = 1, max = 50)
+    @NonNull
     private String email;
-    @Column(name = "first_name")
+
+    @Column(name = "first_name", nullable = false)
+    @NonNull
+    /**
+     * минимальная длина поля firstName 1 символ
+     */
+    @Size(min = 1)
     private String firstName;
-    @Column(name = "last_name")
+
+    @Column(name = "last_name", nullable = false)
+    /**
+     * минимальная длина поля lastName 1 символ
+     */
+    @Size(min = 1)
+    @NonNull
     private String lastName;
 
+    @Column(nullable = false)
+    /**
+     * минимальная длина поля password 6 символов, максимальная 60 символов
+     */
     @Size(min = 6, max = 60)
+    @NonNull
     private String password;
-    private LocalDate birthday;
-    private boolean enable = true;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id")
+    @Column(nullable = false)
+    @Type(type = "org.hibernate.type.LocalDateType")
+    @NonNull
+    private LocalDate birthday;
+
+    private Boolean enable = true;
+
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Role.class)
+    @JoinColumn(name = "role_id", nullable = false)
+    @NonNull
     private Role role;
+
+    @Type(type = "org.hibernate.type.LocalDateTimeType")
     private LocalDateTime registrationDate;
 
     @Column(name = "last_visit")
+    @Type(type = "org.hibernate.type.LocalDateTimeType")
     private LocalDateTime lastVisitDate;
+
     @Column(name = "registration_source")
     private String registrationSource;
+
     @Column(name = "local_tag")
     private String localeTag = "ru";
-    private boolean avatarIsExist = false;
 
+    private Boolean avatarIsExist = false;
 
-    @SuppressWarnings("JpaAttributeTypeInspection")
+    @OneToOne
     private Inactivation inactivation;
 
-    public User(String email, String firstName, String lastName, String password, LocalDate birthday, Role role) {
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.password = password;
-        this.birthday = birthday;
-        this.role = role;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return getId().equals(user.getId()) && getEmail().equals(user.getEmail());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getEmail());
     }
 
     @Override
@@ -63,16 +103,6 @@ public class User {
                 ", email='" + email + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", password='" + password + '\'' +
-                ", birthday=" + birthday +
-                ", enable=" + enable +
-                ", role=" + role +
-                ", registrationDate=" + registrationDate +
-                ", lastVisitDate=" + lastVisitDate +
-                ", registrationSource='" + registrationSource + '\'' +
-                ", localeTag='" + localeTag + '\'' +
-                ", avatarIsExist=" + avatarIsExist +
-                ", inactivation=" + inactivation +
                 '}';
     }
 }

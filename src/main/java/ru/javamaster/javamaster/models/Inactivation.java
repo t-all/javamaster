@@ -1,33 +1,43 @@
 package ru.javamaster.javamaster.models;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.Objects;
 
 @Entity
 @NoArgsConstructor
 @Getter
 @Setter
+@RequiredArgsConstructor
 public class Inactivation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NonNull
     private InactivationReason reason;
 
-    public Inactivation(InactivationReason reason) {
-        this.reason = reason;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Inactivation that = (Inactivation) o;
+        return getId().equals(that.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 
     @Override
     public String toString() {
         return "Inactivation{" +
                 "id=" + id +
-                ", reason=" + reason +
                 '}';
     }
 }
