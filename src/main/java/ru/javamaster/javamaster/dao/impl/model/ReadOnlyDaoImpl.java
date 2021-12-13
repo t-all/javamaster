@@ -1,5 +1,6 @@
 package ru.javamaster.javamaster.dao.impl.model;
 
+import org.springframework.stereotype.Repository;
 import ru.javamaster.javamaster.dao.abstr.model.ReadOnlyDao;
 
 import javax.persistence.EntityManager;
@@ -7,6 +8,7 @@ import javax.persistence.PersistenceContext;
 import java.io.Serializable;
 import java.util.List;
 
+@Repository
 public class ReadOnlyDaoImpl<K extends Serializable, T> implements ReadOnlyDao {
 
     private Class<T> aClass;
@@ -41,7 +43,7 @@ public class ReadOnlyDaoImpl<K extends Serializable, T> implements ReadOnlyDao {
 
     @Override
     public boolean isExistById(Serializable id) {
-        return (boolean) entityManager.createQuery("SELECT u FROM User u WHERE u.id=:id")
+        return (boolean) entityManager.createQuery("SELECT u FROM " + aClass.getName() + "u WHERE u.id=:id")
                 .setParameter("id", id)
                 .getSingleResult();
     }
@@ -53,7 +55,7 @@ public class ReadOnlyDaoImpl<K extends Serializable, T> implements ReadOnlyDao {
 
     @Override
     public List getAllByIds(Iterable ids) {
-        return entityManager.createQuery("SELECT u FROM User u WHERE u.ids=:ids")
+        return entityManager.createQuery("SELECT u FROM " + aClass.getName() + "u WHERE u.ids=:ids")
                 .setParameter("ids", ids)
                 .getResultList();
     }
@@ -66,7 +68,7 @@ public class ReadOnlyDaoImpl<K extends Serializable, T> implements ReadOnlyDao {
 
     @Override
     public List getByField(String fieldName, String fieldValue) {
-        return entityManager.createQuery("SELECT u FROM User u WHERE u.fieldName =:value")
+        return entityManager.createQuery("SELECT u FROM " + aClass.getName() + " WHERE u.fieldName =:value")
                 .setParameter("value", fieldValue)
                 .getResultList();
     }
