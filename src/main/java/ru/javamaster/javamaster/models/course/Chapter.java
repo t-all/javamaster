@@ -1,7 +1,10 @@
 package ru.javamaster.javamaster.models.course;
 import lombok.*;
+import ru.javamaster.javamaster.models.user.StudentProgressStep;
+
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "chapters")
