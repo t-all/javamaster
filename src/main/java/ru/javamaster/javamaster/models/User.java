@@ -4,6 +4,7 @@ import lombok.*;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -45,17 +46,17 @@ public class User {
     @NonNull
     private String lastName;
 
-    @Column(nullable = false)
     /**
      * минимальная длина поля password 6 символов, максимальная 60 символов
      */
     @Size(min = 6, max = 60)
     @NonNull
+    @NotNull
     private String password;
 
-    @Column(nullable = false)
     @Type(type = "org.hibernate.type.LocalDateType")
     @NonNull
+    @NotNull
     private LocalDate birthday;
 
     private Boolean enable = true;
