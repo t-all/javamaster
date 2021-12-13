@@ -72,8 +72,4 @@ public class ReadOnlyDaoImpl<K extends Serializable, T> implements ReadOnlyDao {
                 .setParameter("value", fieldValue)
                 .getResultList();
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 9cdf8b4413b0cc3aeffa8b5800c050235d93cf93
