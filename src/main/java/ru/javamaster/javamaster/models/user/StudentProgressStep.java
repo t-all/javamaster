@@ -7,7 +7,7 @@ import ru.javamaster.javamaster.models.course.ModuleEntity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "studentProgressSteps")
+@Table(name = "student_progress_steps")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
