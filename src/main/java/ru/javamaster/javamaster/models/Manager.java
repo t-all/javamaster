@@ -1,20 +1,20 @@
 package ru.javamaster.javamaster.models;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 
-@Entity
-@Table(name = "users")
 @NoArgsConstructor
-@Getter
 @Setter
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class User {
+@Getter
+@Entity
+@Table(name = "managers")
+public class Manager extends User{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 }
