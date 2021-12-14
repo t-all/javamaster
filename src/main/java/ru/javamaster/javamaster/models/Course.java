@@ -28,14 +28,15 @@ public class Course {
     @Column(name = "name")
     private String name;
 
-    @Type(type = "org.hibernate.type.NumericBooleanType")
     @Column(name = "html_body")
     private String htmlBody;
 
     @Column(name = "is_available")
+    @Type(type = "org.hibernate.type.NumericBooleanType")
     private Boolean isAvailable = false;
 
     @Column(name = "is_tutor")
+    @Type(type = "org.hibernate.type.NumericBooleanType")
     private Boolean isTutor = false;
 
     @Column(name = "percent")
