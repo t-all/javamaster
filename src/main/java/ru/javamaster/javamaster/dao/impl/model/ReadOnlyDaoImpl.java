@@ -43,7 +43,7 @@ public class ReadOnlyDaoImpl<K extends Serializable, T> implements ReadOnlyDao {
 
     @Override
     public boolean isExistById(Serializable id) {
-        return (boolean)entityManager.createQuery("SELECT CASE WHEN COUNT(u.id) > 0 THEN true ELSE false END FROM " + aClass.getName() + "u WHERE u.id=:id")
+        return (boolean)entityManager.createQuery("SELECT CASE WHEN COUNT(u) > 0 THEN true ELSE false END FROM " + aClass.getName() + "u WHERE u.id=:id")
                 .setParameter("id", id)
                 .getSingleResult();
     }
