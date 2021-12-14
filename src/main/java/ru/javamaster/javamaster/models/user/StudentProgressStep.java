@@ -5,7 +5,7 @@ import ru.javamaster.javamaster.models.course.Chapter;
 import ru.javamaster.javamaster.models.course.ModuleEntity;
 
 import javax.persistence.*;
-//Push testbng
+
 @Entity
 @Table(name = "studentProgressSteps")
 @Data
