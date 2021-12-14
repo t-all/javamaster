@@ -4,11 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.apachecommons.CommonsLog;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -16,23 +16,29 @@ import java.util.List;
 @Setter
 @Getter
 @Entity
-@Table(name = "studentPreparationInfo")
+@Table(name = "students_preparation_info")
 public class StudentPreparationInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "students_preparation_info_id")
     private Direction direction;
 
+    @Column(name = "start_preparation_date")
     private LocalDate startPreparationDate;
 
+    @Column(name = "end_preparation_date")
     private LocalDate endPreparationDate;
 
-    private Manager Manager;
+    @Column(name = "manager")
+    private Manager manager;
 
     @Type(type = "org.hibernate.type.NumericBooleanType")
+    @Column(name = "is_end_direction_course")
     private Boolean isEndDirectionCourse = false;
 
 }
