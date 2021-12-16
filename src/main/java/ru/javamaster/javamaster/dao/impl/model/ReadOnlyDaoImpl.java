@@ -1,76 +1,87 @@
 package ru.javamaster.javamaster.dao.impl.model;
 
-import org.springframework.stereotype.Repository;
-import ru.javamaster.javamaster.dao.abstr.model.ReadOnlyDao;
+import org.hibernate.HibernateException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
+import java.util.Arrays;
 import java.util.List;
 
-@Repository
-public class ReadOnlyDaoImpl<K extends Serializable, T> implements ReadOnlyDao {
+public abstract class ReadOnlyDaoImpl<K extends Serializable, T> {
 
-    protected Class<T> aClass;
+    protected final Class<T> persistentClass;
+
+    protected final String getAllQuery;
+
+    private final String getQueryWhere;
 
     @PersistenceContext
     protected EntityManager entityManager;
 
-    public ReadOnlyDaoImpl(Class<T> aClass, EntityManager entityManager) {
-        this.aClass = aClass;
-        this.entityManager = entityManager;
+    protected String genericClassName;
+
+    protected String className;
+
+    @SuppressWarnings("unchecked")
+    protected ReadOnlyDaoImpl() {
+        this.persistentClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
+        genericClassName = persistentClass.toGenericString();
+        className = genericClassName.substring(genericClassName.lastIndexOf('.') + 1);
+        getAllQuery = "FROM " + className;
+        getQueryWhere = "SELECT e FROM " + className + " e WHERE e.";
     }
 
-    @Override
-    public T getByKey(Serializable id) {
-        return entityManager.find(aClass, id);
+    public T getByKey(K key) {
+        return entityManager.find(persistentClass, key);
     }
 
-    @Override
-    public T getProxy(Serializable id) {
-        return entityManager.getReference(aClass, id);
+    public T getProxy(K key) {
+        return entityManager.getReference(persistentClass, key);
     }
 
-    @Override
     public List<T> getAll() {
-        return entityManager.createQuery("FROM " + aClass.getName(), aClass).getResultList();
+        return entityManager.createQuery(getAllQuery, persistentClass).getResultList();
     }
 
-    @Override
+
+    public List<T> getByField(String fieldName, String fieldValue) {
+        return entityManager.createQuery(getQueryWhere + fieldName + " = :val", persistentClass)
+                .setParameter("val", fieldValue)
+                .getResultList();
+    }
+
     public EntityManager getEntityManager() {
         return entityManager;
     }
 
-    @Override
-    public boolean isExistById(Serializable id) {
-        return (boolean)entityManager.createQuery("SELECT CASE WHEN COUNT(u) > 0 THEN true ELSE false END FROM " + aClass.getName() + "u WHERE u.id=:id")
-                .setParameter("id", id)
+    public boolean isExistById(K id) {
+        return entityManager.createQuery(
+                        "SELECT CASE WHEN COUNT(t) > 0 THEN true ELSE false END FROM " + className + " t WHERE t.id =: id"
+                        , Boolean.class
+                ).setParameter("id", id)
                 .getSingleResult();
     }
 
-    @Override
-    public void refresh(Object entity) {
-        entityManager.refresh(entity);
+    public void refresh(T entity) {
+        try {
+            entityManager.refresh(entity);
+        } catch (HibernateException e) {
+            //TODO раскоментировать после создания исключений
+//            throw new MergeException("Failed to refresh an object", e);
+        }
     }
 
-    @Override
-    public List<T> getAllByIds(Iterable ids) {
-        return entityManager.createQuery("SELECT u FROM " + aClass.getName() + "u WHERE u.ids=:ids")
+    @SuppressWarnings("unchecked")
+    public List<T> getAllByIds(Iterable<K> ids) {
+        return entityManager.createQuery("SELECT t FROM " + className + " t WHERE t.id IN :ids")
                 .setParameter("ids", ids)
                 .getResultList();
     }
 
-    @Override
-    public boolean isExistAllByIds(Serializable[] ids) {
-        return (boolean)entityManager.createQuery("SELECT COUNT(ids) u FROM "+ aClass.getName() + "u WHERE u.ids IN :ids")
-                .setParameter("ids", ids)
-                .getSingleResult();
-    }
-
-    @Override
-    public List<T> getByField(String fieldName, String fieldValue) {
-        return entityManager.createQuery("SELECT u FROM " + aClass.getName() + "u WHERE u." + fieldName + "=:value")
-                .setParameter("value", fieldValue)
-                .getResultList();
+    public boolean isExistAllByIds(K[] ids) {
+        return entityManager.createQuery("SELECT COUNT(t.id) FROM " + className + " t WHERE t.id IN :ids", Long.class)
+                .setParameter("ids", Arrays.asList(ids)).getSingleResult() == ids.length;
     }
 }
