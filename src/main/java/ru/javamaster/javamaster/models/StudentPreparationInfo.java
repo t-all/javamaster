@@ -1,22 +1,20 @@
 package ru.javamaster.javamaster.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.extern.apachecommons.CommonsLog;
+import lombok.*;
 import org.hibernate.annotations.Type;
+import ru.javamaster.javamaster.models.entity_classes.Direction;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
 @Entity
-@Table(name = "students_preparation_info")
+@EqualsAndHashCode(of = {"id", "startPreparationDate", "endPreparationDate"})
+@ToString(of = {"id", "startPreparationDate", "endPreparationDate"})
+@Table(name = "student_preparation_info")
 public class StudentPreparationInfo {
 
     @Id
@@ -25,7 +23,7 @@ public class StudentPreparationInfo {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "students_preparation_info_id")
+    @JoinColumn(name = "student_preparation_info_id")
     private Direction direction;
 
     @Column(name = "start_preparation_date")
@@ -34,7 +32,9 @@ public class StudentPreparationInfo {
     @Column(name = "end_preparation_date")
     private LocalDate endPreparationDate;
 
+    @ManyToOne
     @Column(name = "manager")
+    @JoinColumn(name = "student_preparation_info_id")
     private Manager manager;
 
     @Type(type = "org.hibernate.type.NumericBooleanType")
