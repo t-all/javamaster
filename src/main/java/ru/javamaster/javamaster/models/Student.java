@@ -25,7 +25,7 @@ public class Student extends User {
     private Long id;
 
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_preparation_info_id")
     private StudentPreparationInfo studentPreparationInfo;
 

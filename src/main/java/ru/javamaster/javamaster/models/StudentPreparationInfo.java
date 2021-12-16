@@ -22,7 +22,7 @@ public class StudentPreparationInfo {
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_preparation_info_id")
     private Direction direction;
 
@@ -32,7 +32,7 @@ public class StudentPreparationInfo {
     @Column(name = "end_preparation_date")
     private LocalDate endPreparationDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @Column(name = "manager")
     @JoinColumn(name = "student_preparation_info_id")
     private Manager manager;
