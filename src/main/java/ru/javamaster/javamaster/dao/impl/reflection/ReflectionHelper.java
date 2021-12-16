@@ -19,6 +19,9 @@ public class ReflectionHelper<T> {
             return pc.getSuperclass();
         } else {
             return null;
+        }
+    }
+
     public void setPosition(T entity, Class<?> pc, Integer position, String positionFieldName) {
         try {
             Field field = pc.getDeclaredField(positionFieldName);
