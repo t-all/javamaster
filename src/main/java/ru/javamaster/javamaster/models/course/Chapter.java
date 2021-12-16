@@ -22,7 +22,7 @@ public class Chapter {
     private String name;
 
     @Column
-    private String position;
+    private Integer position;
 
     @ManyToOne
     @JoinColumn(name = "module_id")

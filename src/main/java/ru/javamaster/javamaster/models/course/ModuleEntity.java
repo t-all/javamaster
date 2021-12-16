@@ -1,6 +1,7 @@
 package ru.javamaster.javamaster.models.course;
 
 import lombok.*;
+import ru.javamaster.javamaster.dao.abstr.model.course.Course;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class ModuleEntity {
     private String description;
 
     @Column
-    private String position;
+    private Integer position;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "module")
     @JoinColumn(name = "course_id")
