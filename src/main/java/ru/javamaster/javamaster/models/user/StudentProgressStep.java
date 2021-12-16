@@ -25,17 +25,17 @@ public class StudentProgressStep {
     private Student student;
 
     @NonNull
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "course_id")
     Course course;
 
     @NonNull
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "module_id")
     ModuleEntity module;
 
     @NonNull
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "chapter_id")
     Chapter chapter;
 }
