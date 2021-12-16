@@ -4,17 +4,18 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import ru.javamaster.javamaster.models.user.StudentProgressStep;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "chapters")
-@EqualsAndHashCode(of = {"id", "name", "position"})
-@ToString( of = {"id", "name", "position"})
 @AllArgsConstructor
 @NoArgsConstructor
-
+@EqualsAndHashCode(of = {"id", "name", "position"})
+@ToString( of = {"id", "name", "position"})
 public class Chapter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
