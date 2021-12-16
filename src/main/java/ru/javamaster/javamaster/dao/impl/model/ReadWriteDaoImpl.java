@@ -2,8 +2,6 @@ package ru.javamaster.javamaster.dao.impl.model;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -28,14 +26,12 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 //connect logger from lombok
 @Slf4j
 public abstract class ReadWriteDaoImpl<K extends Serializable, T> extends ReadOnlyDaoImpl <K, T> implements ReadWriteDao<K, T> {
 
-    @Value("${hibernate.jdbc.batch_size}")
-    private int BATCH_SIZE;
+    private static final int BATCH_SIZE = 500;
 
     public ReadWriteDaoImpl() {
         super();
@@ -72,7 +68,7 @@ public abstract class ReadWriteDaoImpl<K extends Serializable, T> extends ReadOn
                 if(i % BATCH_SIZE == 0){
                     entityManager.flush();
                     entityManager.clear();
-                    log.info("IN method persistAll batch entities was flushed to database ... ");
+                    log.info("IN method persistAll(T... entities) batch entities was flushed to database ... ");
                 }
             }
         } catch (PersistenceException e) {
@@ -88,9 +84,17 @@ public abstract class ReadWriteDaoImpl<K extends Serializable, T> extends ReadOn
     @Transactional(propagation = Propagation.MANDATORY)
     public void persistAll(Collection entities) {
         Assert.notEmpty(entities, "Entities must not be null!");
+
         try {
+            int i = 0;
             for (Object entity: entities) {
                 entityManager.persist(entity);
+                i++;
+                if(i % BATCH_SIZE == 0){
+                    entityManager.flush();
+                    entityManager.clear();
+                    log.info("IN method persistAll(Collection entities) batch entities was flushed to database ... ");
+                }
             }
         } catch (PersistenceException e) {
             log.warn("IN method persistAll(Collection entities) error -> {}", e.getMessage());
@@ -114,7 +118,6 @@ public abstract class ReadWriteDaoImpl<K extends Serializable, T> extends ReadOn
         return e;
     }
 
-//TODO: I doubt the correctness of this approach, but others are not known to me.
     /**
      * @param id Primary key for identification entity in database
      *           (reference to string in table)
@@ -193,20 +196,23 @@ public abstract class ReadWriteDaoImpl<K extends Serializable, T> extends ReadOn
      * @param entities Collection entity's for update from database
      */
     @Override
-    @Value("${hibernate.jdbc.batch_size}")
     @Transactional(propagation = Propagation.MANDATORY)
     public void updateAll(Iterable<? extends T> entities) {
         Assert.notNull(entities, "Entities must not be null!");
 
-        Long size = StreamSupport.stream(entities.spliterator(), false).count();
-
-
         try {
             Iterator<? extends T> iterator = entities.iterator();
+            int i = 0;
             while(iterator.hasNext()) {
                 T entity = iterator.next();
                 Assert.notNull(entity, "Entity must not be null!");
                 entityManager.persist(entity);
+                i++;
+                if(i % BATCH_SIZE == 0){
+                    entityManager.flush();
+                    entityManager.clear();
+                    log.info("IN method updateAll(Iterable<? extends T> entities) batch entities was flushed to database ... ");
+                }
             }
         } catch (PersistenceException e) {
             log.warn("IN method updateAll(Iterable<? extends T> entities) error -> {}", e.getMessage());
