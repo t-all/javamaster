@@ -9,32 +9,19 @@ import java.util.Objects;
 @NoArgsConstructor
 @Getter
 @Setter
-@RequiredArgsConstructor
+@EqualsAndHashCode(of = {"id"})
+@ToString(of = {"id"})
 public class Inactivation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NonNull
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private InactivationReason reason;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Inactivation that = (Inactivation) o;
-        return getId().equals(that.getId());
-    }
+    @OneToOne(fetch = FetchType.LAZY)
+    @MapsId
+    private User user;
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId());
-    }
-
-    @Override
-    public String toString() {
-        return "Inactivation{" +
-                "id=" + id +
-                '}';
-    }
 }

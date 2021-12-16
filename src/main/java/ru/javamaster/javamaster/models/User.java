@@ -16,10 +16,11 @@ import java.util.Objects;
 @Getter
 @Setter
 @RequiredArgsConstructor
+@EqualsAndHashCode(of = {"id", "email"})
+@ToString(of = {"id", "email", "firstName", "lastName"})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false)
     private Long id;
 
     @Column(name = "email", unique = true)
@@ -28,16 +29,16 @@ public class User {
     private String email;
 
     @Column(name = "first_name")
-    @Size(min = 1, message = "минимальная длина поля firstName 1 символ")
+    @Size(min = 1, message = "минимальная длина 1 символ")
     @NonNull
     private String firstName;
 
     @Column(name = "last_name")
-    @Size(min = 1, message = "минимальная длина поля lastName 1 символ")
+    @Size(min = 1, message = "минимальная длина 1 символ")
     @NonNull
     private String lastName;
 
-    @Size(min = 6, max = 60, message = "минимальная длина поля password 6 символов, максимальная 60 символов")
+    @Size(min = 6, max = 60, message = "минимальная длина пароля 6 символов, максимальная 60 символов")
     @NonNull
     private String password;
 
@@ -67,29 +68,8 @@ public class User {
 
     private Boolean avatarIsExist = false;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY, targetEntity = Inactivation.class,
+            mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
     private Inactivation inactivation;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return getId().equals(user.getId()) && getEmail().equals(user.getEmail());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getEmail());
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                '}';
-    }
 }
