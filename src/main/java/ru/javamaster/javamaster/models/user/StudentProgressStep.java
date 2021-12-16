@@ -10,6 +10,8 @@ import javax.persistence.*;
 @Table(name = "student_progress_steps")
 @EqualsAndHashCode (of = {"id", "name", "description", "position"})
 @ToString( of = {"id", "name", "description", "position"})
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class StudentProgressStep {

@@ -1,6 +1,7 @@
 package ru.javamaster.javamaster.models.course;
 
 import lombok.*;
+import ru.javamaster.javamaster.models.user.Course;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -10,6 +11,8 @@ import java.util.List;
 @Table(name = "modules")
 @EqualsAndHashCode (of = {"id", "name", "description", "position"})
 @ToString( of = {"id", "name", "description", "position"})
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class ModuleEntity {
