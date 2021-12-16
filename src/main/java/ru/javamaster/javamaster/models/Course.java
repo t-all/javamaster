@@ -71,7 +71,7 @@ public class Course {
     @JoinColumn(name = "courses_id")
     private List<StudentProgressSteps> studentProgressSteps = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "courses_id")
     private List<StudentCourseTaskInfoList> studentCourseTaskInfoList = new ArrayList<>();
 
@@ -79,11 +79,11 @@ public class Course {
     @JoinColumn(name = "courses_id")
     private Direction direction;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "courses_id")
     private List<CourseDeadline> courseDeadlines;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "courses_id")
     private Set<InviteToken> inviteTokens;
 
