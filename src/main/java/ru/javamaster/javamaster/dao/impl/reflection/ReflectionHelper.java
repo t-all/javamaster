@@ -1,11 +1,16 @@
 package ru.javamaster.javamaster.dao.impl.reflection;
 
 import java.lang.annotation.Annotation;
+<<<<<<< HEAD
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public class ReflectionHelper <T> {
+=======
+
+public class ReflectionHelper<T> {
+>>>>>>> dev
 
     public boolean hasSuperClass(Class<?> pc) {
         return pc.getClass().isAssignableFrom(pc.getClass());
@@ -23,6 +28,7 @@ public class ReflectionHelper <T> {
             return null;
         }
     }
+<<<<<<< HEAD
 
     public Field getAnnotatedField(Class<?> pc, Class<? extends Annotation> annotationClass){
 
@@ -98,3 +104,6 @@ public class ReflectionHelper <T> {
 //            e.printStackTrace();
 //        }
 //    }
+=======
+}
+>>>>>>> dev
