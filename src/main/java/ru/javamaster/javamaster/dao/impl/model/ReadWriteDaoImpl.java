@@ -2,6 +2,7 @@ package ru.javamaster.javamaster.dao.impl.model;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,15 +28,17 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 //connect logger from lombok
 @Slf4j
-@Repository
-public class ReadWriteDaoImpl<K extends Serializable, T> extends ReadOnlyDaoImpl <K, T> implements ReadWriteDao<K, T> {
+public abstract class ReadWriteDaoImpl<K extends Serializable, T> extends ReadOnlyDaoImpl <K, T> implements ReadWriteDao<K, T> {
 
+    @Value("${hibernate.jdbc.batch_size}")
+    private int BATCH_SIZE;
 
-    public ReadWriteDaoImpl(Class<T> aClass, EntityManager entityManager) {
-        super(aClass, entityManager);
+    public ReadWriteDaoImpl() {
+        super();
     }
 
     /**
@@ -62,8 +65,15 @@ public class ReadWriteDaoImpl<K extends Serializable, T> extends ReadOnlyDaoImpl
         Assert.notEmpty(entities, "Entities must not be null!");
 
         try {
+            int i = 0;
             for (T entity : entities) {
                 entityManager.persist(entity);
+                i++;
+                if(i % BATCH_SIZE == 0){
+                    entityManager.flush();
+                    entityManager.clear();
+                    log.info("IN method persistAll batch entities was flushed to database ... ");
+                }
             }
         } catch (PersistenceException e) {
             log.warn("IN method persistAll(T... entities) error -> {}", e.getMessage());
@@ -136,7 +146,7 @@ public class ReadWriteDaoImpl<K extends Serializable, T> extends ReadOnlyDaoImpl
         Assert.notNull(id, "ID must not be null!");
 
         try {
-            entityManager.createQuery("Delete t.type from " + aClass.getName() + " where t.id = :id")
+            entityManager.createQuery("Delete t.type from " + persistentClass.getName() + " where t.id = :id")
                     .setParameter("id", id)
                     .executeUpdate();
         } catch (PersistenceException e) {
@@ -183,16 +193,20 @@ public class ReadWriteDaoImpl<K extends Serializable, T> extends ReadOnlyDaoImpl
      * @param entities Collection entity's for update from database
      */
     @Override
+    @Value("${hibernate.jdbc.batch_size}")
     @Transactional(propagation = Propagation.MANDATORY)
     public void updateAll(Iterable<? extends T> entities) {
         Assert.notNull(entities, "Entities must not be null!");
+
+        Long size = StreamSupport.stream(entities.spliterator(), false).count();
+
 
         try {
             Iterator<? extends T> iterator = entities.iterator();
             while(iterator.hasNext()) {
                 T entity = iterator.next();
                 Assert.notNull(entity, "Entity must not be null!");
-                entityManager.merge(entity);
+                entityManager.persist(entity);
             }
         } catch (PersistenceException e) {
             log.warn("IN method updateAll(Iterable<? extends T> entities) error -> {}", e.getMessage());
@@ -210,7 +224,7 @@ public class ReadWriteDaoImpl<K extends Serializable, T> extends ReadOnlyDaoImpl
         Assert.notNull(id, "ID must not be null!");
 
         try {
-            entityManager.createQuery("update " + aClass.getName() + " a set " + fieldName + " = :fieldValue where a.id = :id")
+            entityManager.createQuery("update " + persistentClass.getName() + " a set " + fieldName + " = :fieldValue where a.id = :id")
                     .setParameter("fieldValue", fieldValue)
                     .setParameter("id", id)
                     .executeUpdate();
