@@ -3,6 +3,8 @@ package ru.javamaster.javamaster.models;
 
 import lombok.*;
 import org.hibernate.annotations.Type;
+import ru.javamaster.javamaster.models.entity_classes.*;
+import ru.javamaster.javamaster.models.entity_classes.Module;
 
 
 import javax.persistence.*;
@@ -60,9 +62,9 @@ public class Course {
     @JoinColumn(name = "courses_id")
     private CourseInfo courseInfo;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "courses_id")
-    private List<Modules> modules = new ArrayList<>();
+    private List<Module> modules = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "courses_id")
@@ -78,10 +80,10 @@ public class Course {
 
     @OneToMany
     @JoinColumn(name = "courses_id")
-    private List<CourseDeadlines> courseDeadlines;
+    private List<CourseDeadline> courseDeadlines;
 
     @OneToMany
     @JoinColumn(name = "courses_id")
-    Set<InviteTokens> inviteTokens;
+    private Set<InviteToken> inviteTokens;
 
 }
