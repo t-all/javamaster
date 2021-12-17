@@ -1,9 +1,11 @@
 package ru.javamaster.javamaster.models.directions;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import ru.javamaster.javamaster.models.directions.entity.Course;
 import ru.javamaster.javamaster.models.directions.entity.DirectionTask;
 import ru.javamaster.javamaster.models.directions.entity.InviteToken;
@@ -31,6 +33,8 @@ import java.util.Set;
 @Setter
 @Getter
 @Entity
+@EqualsAndHashCode(of = {"id", "name", "directionPic", "slackReviewChannel"})
+@ToString(of = {"id", "name", "directionPic", "slackReviewChannel"})
 @Table(name = "directions")
 
 public class Direction {
