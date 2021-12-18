@@ -2,8 +2,26 @@ package ru.javamaster.javamaster.dao.impl.reflection;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
-public class ReflectionHelper <T>{
+public class ReflectionHelper <T> {
+    public boolean hasSuperClass(Class<?> pc) {
+        return pc.getClass().isAssignableFrom(pc.getClass());
+    }
+
+    public boolean hasClassFieldWithAnnotation(Class<?> pc, Class<? extends Annotation> annotationClass) {
+        return pc.isAnnotationPresent(annotationClass);
+    }
+
+    public Class<? super T> getSuperClassWithAnnotation(Class pc, Class<? extends Annotation> annotationClass) {
+
+        if (pc.isAnnotationPresent(annotationClass)) {
+            return pc.getSuperclass();
+        } else {
+            return null;
+        }
+    }
 
     public Field getAnnotatedField(Class<?> pc, Class<? extends Annotation> annotationClass){
         Field annotatedField = null;
@@ -42,7 +60,6 @@ public class ReflectionHelper <T>{
         }
         return discriminantId;
     }
-
 
     public void setPosition(T entity, Class<?> pc, Integer position, String positionFieldName) {
         try {
@@ -88,5 +105,3 @@ public class ReflectionHelper <T>{
         }
     }
 }
-
-
