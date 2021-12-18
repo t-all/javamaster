@@ -17,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @NoArgsConstructor
@@ -24,8 +25,8 @@ import javax.persistence.Table;
 @Setter
 @Getter
 @Entity
-@EqualsAndHashCode(of = {"id", "tetx", "right"})
-@ToString(of = {"id", "tetx", "right"})
+@EqualsAndHashCode(of = {"id", "text", "right"})
+@ToString(of = {"id", "text", "right"})
 @Table(name = "probably_answers")
 
 public class ProbablyAnswer {
@@ -42,7 +43,7 @@ public class ProbablyAnswer {
     @Type(type = "org.hibernate.type.NumericBooleanType")
     private boolean right;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @Column(name = "theory_task")
     @JoinColumn(name = "probably_answers_id")
     private TheoryTask theoryTask;
