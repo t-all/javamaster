@@ -22,6 +22,7 @@ public class ReflectionHelper<T> {
         }
     }
 
+
     public void setPosition(T entity, Class<?> pc, Integer position, String positionFieldName) {
         try {
             Field field = pc.getDeclaredField(positionFieldName);
