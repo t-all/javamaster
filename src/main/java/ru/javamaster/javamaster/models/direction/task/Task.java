@@ -1,10 +1,12 @@
 package ru.javamaster.javamaster.models.direction.task;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import lombok.ToString;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.CascadeType;
@@ -29,6 +31,8 @@ import javax.validation.constraints.NotEmpty;
 @Getter
 @Setter
 @Entity
+@EqualsAndHashCode(of = {"id", "type", "title", "description"})
+@ToString(of = {"id", "type", "title", "description"})
 @Table(name = "tasks")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Task {
