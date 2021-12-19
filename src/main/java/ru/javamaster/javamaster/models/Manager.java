@@ -25,6 +25,8 @@ public class Manager extends User{
     private Set<StudentPreparationInfo> studentPreparationInfo = new HashSet<>();
 
 
-    public Manager(User user){}
+    public Manager(User user){
+        super();
+    }
 
 }
