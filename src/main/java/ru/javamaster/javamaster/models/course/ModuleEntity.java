@@ -11,6 +11,8 @@ import java.util.List;
 @Table(name = "modules")
 @EqualsAndHashCode (of = {"id", "name", "description", "position"})
 @ToString( of = {"id", "name", "description", "position"})
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class ModuleEntity {
