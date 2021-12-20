@@ -34,7 +34,7 @@ import java.util.List;
 @ToString(of = {"id", "text", "user"})
 @Table(name = "comment")
 
-public abstract class Comment implements Comparable{
+public abstract class Comment implements Comparable<Comment>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
