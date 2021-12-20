@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Setter
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @RequiredArgsConstructor
 @EqualsAndHashCode(of = {"id", "email"})
 @ToString(of = {"id", "email", "firstName", "lastName"})
