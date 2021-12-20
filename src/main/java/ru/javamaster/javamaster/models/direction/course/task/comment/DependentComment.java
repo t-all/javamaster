@@ -10,12 +10,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
 @Entity
+@Table(name = "depended_comments")
 public class DependentComment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
