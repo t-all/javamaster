@@ -1,9 +1,6 @@
 package ru.javamaster.javamaster.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import ru.javamaster.javamaster.models.entity_classes.StudentDirectionTask;
 
 import javax.persistence.*;
@@ -16,7 +13,9 @@ import java.util.Set;
 @Setter
 @Getter
 @Entity
-@Table(name = "students")
+@DiscriminatorValue(value = "Student")
+@ToString(callSuper = true, exclude = {"studentPreparationInfo", "studentDirectionTask"})
+@EqualsAndHashCode(callSuper = true, exclude = {"studentPreparationInfo", "studentDirectionTask"})
 public class Student extends User {
 
     @Id
@@ -25,8 +24,8 @@ public class Student extends User {
     private Long id;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "student_preparation_info_id")
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_preparation_info_id", unique = true)
     private StudentPreparationInfo studentPreparationInfo;
 
     @OneToMany(mappedBy = "student", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
