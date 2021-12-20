@@ -10,6 +10,6 @@ public class CourseTask {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "module_id")
-    private ModuleEntity module;
+    @JoinColumn(name = "chapter_id")
+    private Chapter chapter;
 }
