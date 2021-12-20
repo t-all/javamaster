@@ -3,8 +3,10 @@ package ru.javamaster.javamaster.models;
 
 import lombok.*;
 import org.hibernate.annotations.Type;
+import ru.javamaster.javamaster.models.directions.Direction;
 import ru.javamaster.javamaster.models.entity_classes.*;
 import ru.javamaster.javamaster.models.entity_classes.Module;
+import ru.javamaster.javamaster.models.user.StudentProgressStep;
 
 
 import javax.persistence.*;
@@ -69,7 +71,7 @@ public class Course {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "courses_id")
-    private List<StudentProgressSteps> studentProgressSteps = new ArrayList<>();
+    private List<StudentProgressStep> studentProgressSteps = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "courses_id")
