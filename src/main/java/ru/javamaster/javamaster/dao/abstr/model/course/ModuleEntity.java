@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import ru.javamaster.javamaster.models.user.Course;
 
 import javax.persistence.*;
 import java.util.ArrayList;

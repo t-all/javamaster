@@ -1,7 +1,7 @@
 package ru.javamaster.javamaster.models.course;
 
 import lombok.*;
-import ru.javamaster.javamaster.dao.abstr.model.course.Course;
+import ru.javamaster.javamaster.models.user.Course;
 
 import javax.persistence.*;
 import java.util.ArrayList;
