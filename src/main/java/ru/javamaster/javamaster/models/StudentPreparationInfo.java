@@ -2,7 +2,7 @@ package ru.javamaster.javamaster.models;
 
 import lombok.*;
 import org.hibernate.annotations.Type;
-import ru.javamaster.javamaster.models.entity_classes.Direction;
+import ru.javamaster.javamaster.models.directions.Direction;
 
 import javax.persistence.*;
 import java.time.LocalDate;
