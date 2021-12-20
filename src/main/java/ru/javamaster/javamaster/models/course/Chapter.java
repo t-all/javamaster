@@ -10,8 +10,11 @@ import java.util.List;
 @Table(name = "chapters")
 @EqualsAndHashCode (of = {"id", "name", "position"})
 @ToString( of = {"id", "name", "position"})
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class Chapter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -8,7 +8,10 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "student_progress_steps")
-@Data
+@EqualsAndHashCode (of = {"id", "name", "description", "position"})
+@ToString( of = {"id", "name", "description", "position"})
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class StudentProgressStep {
