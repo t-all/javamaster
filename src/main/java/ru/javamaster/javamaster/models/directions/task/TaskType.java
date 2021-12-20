@@ -1,4 +1,4 @@
-package ru.javamaster.javamaster.models.direction.task;
+package ru.javamaster.javamaster.models.directions.task;
 
 public enum TaskType {
     code,
