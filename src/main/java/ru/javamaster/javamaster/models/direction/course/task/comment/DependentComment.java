@@ -16,7 +16,7 @@ import javax.persistence.Id;
 @Setter
 @Getter
 @Entity
-public class DependentComments {
+public class DependentComment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
