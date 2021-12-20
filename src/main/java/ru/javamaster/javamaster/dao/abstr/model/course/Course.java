@@ -5,6 +5,7 @@ import javax.persistence.Id;
 
 @Entity
 public class Course {
+    //Класс заглушка для компиляции класса ModuleEntity
     @Id
     private Long id;
 }
