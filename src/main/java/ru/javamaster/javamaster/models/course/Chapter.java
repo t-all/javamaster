@@ -1,5 +1,6 @@
 package ru.javamaster.javamaster.models.course;
 import lombok.*;
+import ru.javamaster.javamaster.models.user.CourseTask;
 import ru.javamaster.javamaster.models.user.StudentProgressStep;
 
 import javax.persistence.*;

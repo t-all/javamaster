@@ -1,9 +1,6 @@
 package ru.javamaster.javamaster.dao.abstr.model.course;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class CourseTask {
@@ -11,4 +8,8 @@ public class CourseTask {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "module_id")
+    private ModuleEntity module;
 }
