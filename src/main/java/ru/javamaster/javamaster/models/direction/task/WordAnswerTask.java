@@ -22,5 +22,6 @@ public class WordAnswerTask extends Task{
 
     public WordAnswerTask(Task task) {
         super();
+        task.setType(TaskType.word);
     }
 }
