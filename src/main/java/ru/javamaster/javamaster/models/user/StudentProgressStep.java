@@ -7,8 +7,11 @@ import ru.javamaster.javamaster.models.course.ModuleEntity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "studentProgressSteps")
-@Data
+@Table(name = "student_progress_steps")
+@EqualsAndHashCode (of = {"id", "name", "description", "position"})
+@ToString( of = {"id", "name", "description", "position"})
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class StudentProgressStep {
@@ -19,22 +22,22 @@ public class StudentProgressStep {
     private Long id;
 
     @NonNull
-    @OneToOne
-    @JoinColumn(name = "student_id")
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "student_id", nullable = false, unique = true)
     private Student student;
 
     @NonNull
-    @ManyToOne
-    @JoinColumn(name = "course_id")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "course_id", nullable = false)
     Course course;
 
     @NonNull
-    @ManyToOne
-    @JoinColumn(name = "module_id")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "module_id", nullable = false)
     ModuleEntity module;
 
     @NonNull
-    @ManyToOne
-    @JoinColumn(name = "chapter_id")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "chapter_id", nullable = false)
     Chapter chapter;
 }
