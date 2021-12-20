@@ -1,11 +1,11 @@
-package ru.javamaster.javamaster.models;
+package ru.javamaster.javamaster.models.directions.course;
 
 
 import lombok.*;
 import org.hibernate.annotations.Type;
 import ru.javamaster.javamaster.models.directions.Direction;
-import ru.javamaster.javamaster.models.entity_classes.*;
-import ru.javamaster.javamaster.models.entity_classes.Module;
+import ru.javamaster.javamaster.models.directions.course.recruitment.CourseDeadline;
+import ru.javamaster.javamaster.models.user.InviteToken;
 import ru.javamaster.javamaster.models.user.StudentProgressStep;
 
 
@@ -23,10 +23,11 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "courses")
+
 public class Course {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
     @Column(name = "name")
@@ -67,7 +68,7 @@ public class Course {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "courses_id")
-    private List<Module> modules = new ArrayList<>();
+    private List<ModuleEntity> modules = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "courses_id")
@@ -75,7 +76,7 @@ public class Course {
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "courses_id")
-    private List<StudentCourseTaskInfoList> studentCourseTaskInfoList = new ArrayList<>();
+    private List<StudentCourseInfo> studentCourseTaskInfoList = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "courses_id")

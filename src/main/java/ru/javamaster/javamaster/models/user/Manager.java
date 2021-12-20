@@ -1,4 +1,4 @@
-package ru.javamaster.javamaster.models;
+package ru.javamaster.javamaster.models.user;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +13,7 @@ import java.util.Set;
 @Getter
 @Entity
 @Table(name = "managers")
-public class Manager extends User{
+public class Manager extends User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
