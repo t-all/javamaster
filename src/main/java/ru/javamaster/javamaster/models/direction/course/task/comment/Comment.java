@@ -52,7 +52,7 @@ public class Comment implements Comparable<Comment>{
     private boolean isMainComment = false;
 
     @Transient
-    private List<DependentComments> dependentComments = new LinkedList<>();
+    private List<DependentComment> dependentComments = new LinkedList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comment_id")
