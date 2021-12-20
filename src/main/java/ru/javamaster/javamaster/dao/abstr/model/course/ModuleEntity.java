@@ -1,7 +1,9 @@
-package ru.javamaster.javamaster.models.course;
+package ru.javamaster.javamaster.dao.abstr.model.course;
 
-import lombok.*;
-import ru.javamaster.javamaster.dao.abstr.model.course.Course;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -9,12 +11,12 @@ import java.util.List;
 
 @Entity
 @Table(name = "modules")
-@EqualsAndHashCode (of = {"id", "name", "description", "position"})
+@EqualsAndHashCode(of = {"id", "name", "description", "position"})
 @ToString( of = {"id", "name", "description", "position"})
 @AllArgsConstructor
 @NoArgsConstructor
-public class ModuleEntity {
 
+public class ModuleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -36,4 +38,5 @@ public class ModuleEntity {
     @ManyToOne
     @JoinColumn(name = "course_id")
     private Course course;
+
 }
