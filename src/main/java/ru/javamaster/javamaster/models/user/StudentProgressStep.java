@@ -1,8 +1,11 @@
 package ru.javamaster.javamaster.models.user;
 
 import lombok.*;
-import ru.javamaster.javamaster.models.course.Chapter;
-import ru.javamaster.javamaster.models.course.ModuleEntity;
+import ru.javamaster.javamaster.dao.abstr.model.course.Chapter;
+import ru.javamaster.javamaster.dao.abstr.model.course.ModuleEntity;
+import ru.javamaster.javamaster.models.Course;
+import ru.javamaster.javamaster.models.Student;
+
 
 import javax.persistence.*;
 
