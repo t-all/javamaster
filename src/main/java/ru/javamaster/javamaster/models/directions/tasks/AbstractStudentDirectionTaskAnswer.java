@@ -26,7 +26,7 @@ import javax.persistence.Table;
 @ToString(of = {"id"})
 @Table(name = "abstract_student_direction_task_answers")
 
-public abstract class AbstractStudentDirectionTaskAnswers {
+public abstract class AbstractStudentDirectionTaskAnswer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -44,21 +44,21 @@ public class DirectionTask {
     private Long id;
 
     @Column(name = "position")
-    @Min(value = 0, message = "Minimum value is {value}")
+    @Min(value = 1, message = "Minimum value is {value}")
     @NonNull
     private Integer position;
 
     @OneToOne(fetch = FetchType.LAZY, targetEntity = Task.class, cascade = CascadeType.REFRESH, mappedBy = "directionTask")
+    @JoinColumn(name= "direction_tasks_id")
     private Task task;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "direction_tasks_id")
     private Direction direction;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "direction_tasks_id")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy= "directionTask")
     private Set<StudentDirectionTask> studentDirectionTasks = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "direction_tasks_id")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy= "directionTask")
     private Set<DirectionTaskComment> directionTaskComments = new HashSet<>();
 }

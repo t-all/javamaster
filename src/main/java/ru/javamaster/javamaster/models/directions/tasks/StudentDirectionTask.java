@@ -53,6 +53,6 @@ public class StudentDirectionTask {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn (name = "student_direction_task_id")
-    private Set<AbstractStudentDirectionTaskAnswers> abstractStudentDirectionTaskAnswers = new HashSet<>();
+    private Set<AbstractStudentDirectionTaskAnswer> abstractStudentDirectionTaskAnswers = new HashSet<>();
 
 }
