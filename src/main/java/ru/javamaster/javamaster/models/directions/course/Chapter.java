@@ -1,6 +1,9 @@
-package ru.javamaster.javamaster.models.course;
-import lombok.*;
-import ru.javamaster.javamaster.models.user.CourseTask;
+package ru.javamaster.javamaster.models.directions.course;
+
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import ru.javamaster.javamaster.models.user.StudentProgressStep;
 
 import javax.persistence.*;
@@ -9,13 +12,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "chapters")
-@EqualsAndHashCode (of = {"id", "name", "position"})
-@ToString( of = {"id", "name", "position"})
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
+@EqualsAndHashCode(of = {"id", "name", "position"})
+@ToString( of = {"id", "name", "position"})
 public class Chapter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

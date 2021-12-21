@@ -4,7 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import ru.javamaster.javamaster.models.user.Course;
+import ru.javamaster.javamaster.models.directions.course.Chapter;
+import ru.javamaster.javamaster.models.directions.course.Course;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -33,9 +34,11 @@ public class ModuleEntity {
     private Integer position;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "module")
+    @JoinColumn(name = "course_id")
     private List<Chapter> chapters = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "course_id")
     private Course course;
+
 }

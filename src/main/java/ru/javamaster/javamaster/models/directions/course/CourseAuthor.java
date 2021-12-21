@@ -1,4 +1,4 @@
-package ru.javamaster.javamaster.models;
+package ru.javamaster.javamaster.models.directions.course;
 
 import lombok.*;
 
