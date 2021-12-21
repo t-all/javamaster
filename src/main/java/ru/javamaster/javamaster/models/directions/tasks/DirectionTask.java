@@ -1,14 +1,29 @@
 package ru.javamaster.javamaster.models.directions.tasks;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
-import ru.javamaster.javamaster.models.directions.Direction;
-import ru.javamaster.javamaster.models.directions.course.task.comment.DirectionTaskComment;
+import lombok.ToString;
 
-import javax.persistence.*;
+import ru.javamaster.javamaster.models.directions.Direction;
+import ru.javamaster.javamaster.models.directions.tasks.comment.DirectionTaskComment;
+
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,8 +33,9 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @Setter
+@EqualsAndHashCode(of = {"id", "position", "task"})
+@ToString(of = {"id", "position", "task"})
 @Table(name = "direction_tasks")
-
 public class DirectionTask {
 
     @Id
@@ -32,21 +48,17 @@ public class DirectionTask {
     @NonNull
     private Integer position;
 
-    @OneToOne(fetch = FetchType.LAZY,
-            targetEntity = Task.class,
-            cascade = CascadeType.REFRESH,
-            mappedBy = "direction_task")
+    @OneToOne(fetch = FetchType.LAZY, targetEntity = Task.class, cascade = CascadeType.REFRESH, mappedBy = "directionTask")
     private Task task;
 
-    @ManyToOne(fetch = FetchType.LAZY,
-            cascade = CascadeType.REFRESH)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     private Direction direction;
 
-    @OneToMany(fetch = FetchType.LAZY,
-            cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "direction_tasks_id")
     private Set<StudentDirectionTask> studentDirectionTasks = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY,
-            cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "direction_tasks_id")
     private Set<DirectionTaskComment> directionTaskComments = new HashSet<>();
 }
