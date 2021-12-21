@@ -1,4 +1,4 @@
-package ru.javamaster.javamaster.models.directions.task;
+package ru.javamaster.javamaster.models.directions.tasks;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,4 +1,4 @@
-package ru.javamaster.javamaster.models.directions.task;
+package ru.javamaster.javamaster.models.directions.tasks;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -64,7 +64,7 @@ public class Task {
     private Boolean isAvailable = true;
 
     @OneToOne(fetch = FetchType.LAZY,
-              targetEntity = DirectionTask.class,
+              targetEntity = ru.javamaster.javamaster.models.directions.task.DirectionTask.class,
               cascade = CascadeType.ALL,
               mappedBy = "task")
     private DirectionTask directionTask;
