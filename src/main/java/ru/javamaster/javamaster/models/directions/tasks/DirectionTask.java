@@ -49,17 +49,17 @@ public class DirectionTask {
     private Integer position;
 
     @OneToOne(fetch = FetchType.LAZY, targetEntity = Task.class, cascade = CascadeType.REFRESH)
-    @JoinColumn(name= "direction_tasks_id")
+    @JoinColumn(name= "task_id")
     private Task task;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "direction_tasks_id")
+    @JoinColumn(name = "direction_id")
     private Direction direction;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy= "directionTask")
     private Set<StudentDirectionTask> studentDirectionTasks = new HashSet<>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    @JoinColumn(name= "direction_tasks_id")
+    @JoinColumn(name= "direction_task_comment_id")
     private Set<DirectionTaskComment> directionTaskComments = new HashSet<>();
 }
