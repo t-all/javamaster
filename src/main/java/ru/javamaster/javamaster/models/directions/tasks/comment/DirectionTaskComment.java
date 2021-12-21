@@ -34,7 +34,4 @@ public class DirectionTaskComment {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "direction_task_id")
-    private DirectionTask directionTask;
 }
