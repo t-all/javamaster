@@ -1,4 +1,4 @@
-package ru.javamaster.javamaster.dao.abstr.model.course;
+package ru.javamaster.javamaster.models.directions.course;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

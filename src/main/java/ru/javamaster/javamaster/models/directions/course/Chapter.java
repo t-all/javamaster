@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import ru.javamaster.javamaster.dao.abstr.model.course.ModuleEntity;
 import ru.javamaster.javamaster.models.user.StudentProgressStep;
 
 import javax.persistence.*;
