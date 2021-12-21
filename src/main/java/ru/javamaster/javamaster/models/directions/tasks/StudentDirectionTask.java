@@ -1,8 +1,9 @@
-package ru.javamaster.javamaster.models.entity_classes;
+package ru.javamaster.javamaster.models.directions.tasks;
 
-import ru.javamaster.javamaster.models.Student;
+import ru.javamaster.javamaster.models.user.Student;
 
 import javax.persistence.*;
+
 
 @Entity
 @Table(name = "student_direction_task")

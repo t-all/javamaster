@@ -1,8 +1,9 @@
-package ru.javamaster.javamaster.models;
+package ru.javamaster.javamaster.models.user;
 
 import lombok.*;
 import org.hibernate.annotations.Type;
 import ru.javamaster.javamaster.models.directions.Direction;
+import ru.javamaster.javamaster.models.user.Manager;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -33,8 +34,6 @@ public class StudentPreparationInfo {
     private LocalDate endPreparationDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "manager")
-    @JoinColumn(name = "student_preparation_info_id")
     private Manager manager;
 
     @Type(type = "org.hibernate.type.NumericBooleanType")
