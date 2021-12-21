@@ -1,5 +1,14 @@
 package ru.javamaster.javamaster.models.directions.tasks;
 
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.annotations.Type;
+import ru.javamaster.javamaster.models.user.Student;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,34 +18,41 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode(of = {"id", "student", "directionTask"})
+@ToString(of = {"id", "student", "directionTask"})
 @Table(name = "student_direction_task")
+
 public class StudentDirectionTask {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY,
-                cascade = CascadeType.REFRESH)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "student_id")
+    private Student student;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "direction_task_id")
     private DirectionTask directionTask;
 
-    public DirectionTask getDirectionTask() {
-        return directionTask;
-    }
+    @Type(type = "org.hibernate.type.NumericBooleanType")
+    @Column(name = "is_reset")
+    private Boolean isReset = false;
 
-    public void setDirectionTask(DirectionTask directionTask) {
-        this.directionTask = directionTask;
-    }
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @JoinColumn (name = "student_direction_task_id")
+    private Set<AbstractStudentDirectionTaskAnswers> abstractStudentDirectionTaskAnswers = new HashSet<>();
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 }
