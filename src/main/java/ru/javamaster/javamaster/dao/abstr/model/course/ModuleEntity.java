@@ -33,7 +33,6 @@ public class ModuleEntity {
     private Integer position;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "module")
-    @JoinColumn(name = "course_id")
     private List<Chapter> chapters = new ArrayList<>();
 
     @ManyToOne
