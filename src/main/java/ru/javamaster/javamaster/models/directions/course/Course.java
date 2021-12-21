@@ -59,35 +59,35 @@ public class Course {
     private Integer position;
 
     @OneToOne
-    @JoinColumn(name = "courses_id", insertable=false, updatable=false)
+    @JoinColumn(name = "course_author_id")
     private CourseAuthor courseAuthor;
 
     @OneToOne
-    @JoinColumn(name = "courses_id", insertable=false, updatable=false)
+    @JoinColumn(name = "course_info_id")
     private CourseInfo courseInfo;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "courses_id", insertable=false, updatable=false)
+    @JoinColumn(name = "modules_id")
     private List<ModuleEntity> modules = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "courses_id", insertable=false, updatable=false)
+    @JoinColumn(name = "student_progress_steps_id")
     private List<StudentProgressStep> studentProgressSteps = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "courses_id", insertable=false, updatable=false)
+    @JoinColumn(name = "student_course_task_info_list_id")
     private List<StudentCourseInfo> studentCourseTaskInfoList = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "courses_id", insertable=false, updatable=false)
+    @JoinColumn(name = "direction_id")
     private Direction direction;
 
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "courses_id", insertable=false, updatable=false)
+    @JoinColumn(name = "course_deadlines_id")
     private List<CourseDeadline> courseDeadlines;
 
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "courses_id", insertable=false, updatable=false)
+    @JoinColumn(name = "invite_tokens_id")
     private Set<InviteToken> inviteTokens;
 
 }
