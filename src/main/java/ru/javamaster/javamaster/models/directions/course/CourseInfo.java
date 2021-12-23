@@ -17,7 +17,6 @@ public class CourseInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    @Lob
     private Long id;
 
     @Column(name = "description")
