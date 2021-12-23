@@ -1,7 +1,7 @@
-package ru.javamaster.javamaster.models;
+package ru.javamaster.javamaster.models.user;
 
 import lombok.*;
-import ru.javamaster.javamaster.models.entity_classes.StudentDirectionTask;
+import ru.javamaster.javamaster.models.directions.tasks.StudentDirectionTask;
 
 import javax.persistence.*;
 import java.util.HashSet;

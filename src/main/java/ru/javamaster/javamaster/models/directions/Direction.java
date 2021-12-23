@@ -6,11 +6,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import ru.javamaster.javamaster.models.Course;
-import ru.javamaster.javamaster.models.StudentPreparationInfo;
-import ru.javamaster.javamaster.models.entity_classes.DirectionTask;
-import ru.javamaster.javamaster.models.entity_classes.InviteToken;
-import ru.javamaster.javamaster.models.entity_classes.RecruitmentStudent;
+import ru.javamaster.javamaster.models.directions.course.Course;
+import ru.javamaster.javamaster.models.user.StudentPreparationInfo;
+import ru.javamaster.javamaster.models.directions.tasks.DirectionTask;
+import ru.javamaster.javamaster.models.user.InviteToken;
+import ru.javamaster.javamaster.models.directions.course.recruitment.RecruitmentStudent;
 
 
 import javax.persistence.CascadeType;

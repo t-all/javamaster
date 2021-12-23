@@ -1,11 +1,11 @@
-package ru.javamaster.javamaster.models.entity_classes;
+package ru.javamaster.javamaster.models.directions.course;
 
 import javax.persistence.*;
 
+//TODO Класс заглушка для компиляции класса Course
 @Entity
 @Table(name = "student_course_task_info_list")
-public class StudentCourseTaskInfoList {
-    //Класс заглушка для компиляции класса Course
+public class StudentCourseInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

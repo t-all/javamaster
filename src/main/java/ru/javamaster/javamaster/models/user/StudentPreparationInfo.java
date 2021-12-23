@@ -1,4 +1,4 @@
-package ru.javamaster.javamaster.models;
+package ru.javamaster.javamaster.models.user;
 
 import lombok.*;
 import org.hibernate.annotations.Type;
@@ -33,8 +33,6 @@ public class StudentPreparationInfo {
     private LocalDate endPreparationDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "manager")
-    @JoinColumn(name = "student_preparation_info_id")
     private Manager manager;
 
     @Type(type = "org.hibernate.type.NumericBooleanType")

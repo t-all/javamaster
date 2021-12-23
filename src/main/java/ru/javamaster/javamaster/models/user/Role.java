@@ -1,4 +1,4 @@
-package ru.javamaster.javamaster.models;
+package ru.javamaster.javamaster.models.user;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

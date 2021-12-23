@@ -1,4 +1,4 @@
-package ru.javamaster.javamaster.models;
+package ru.javamaster.javamaster.models.directions.course;
 
 import lombok.*;
 
@@ -17,7 +17,6 @@ public class CourseInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    @Lob
     private Long id;
 
     @Column(name = "description")
