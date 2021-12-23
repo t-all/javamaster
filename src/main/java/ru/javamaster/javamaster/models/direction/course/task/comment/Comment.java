@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.Type;
-import ru.javamaster.javamaster.models.User;
+import ru.javamaster.javamaster.models.user.User;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -38,7 +38,7 @@ public class Comment implements Comparable<Comment>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Long id;
 
     @Lob
@@ -52,10 +52,10 @@ public class Comment implements Comparable<Comment>{
     private boolean isMainComment = false;
 
     @Transient
-    private List<DependentComment> dependentComments = new LinkedList<>();
+    private List<Comment> dependentComments = new LinkedList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "comment_id")
+    @JoinColumn(name = "my_main_comment_id")
     private Comment myMainComment;
 
     private Date date = new Date();
