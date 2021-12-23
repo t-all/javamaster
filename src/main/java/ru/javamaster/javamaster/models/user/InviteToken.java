@@ -1,8 +1,18 @@
 package ru.javamaster.javamaster.models.user;
 
-import javax.persistence.*;
+import lombok.*;
+import ru.javamaster.javamaster.models.directions.Direction;
+import ru.javamaster.javamaster.models.directions.course.Course;
 
-//TODO Класс заглушка для компиляции класса Course
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(of = {"id", "hash", "curatorEmail"})
+@ToString(of = {"id", "hash", "curatorEmail"})
 @Entity
 @Table(name = "invite_tokens")
 public class InviteToken {
@@ -12,43 +22,22 @@ public class InviteToken {
     @Column(name = "id")
     Long id;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    Long id;
+    @NotNull
+    @Column(name = "hash", unique = true)
+    private String hash;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    Long id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Column(name = "direction_id")
+    Direction direction;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    Long id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Column(name = "tutor_id")
+    Tutor tutor = new Tutor(RoleNameEnum.TUTOR);
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    Long id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Column(name = "course_id")
+    private Course course;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    Long id;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    Long id;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    Long id;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    Long id;
+    @Column(name = "curator_email")
+    private String curatorEmail;
 }
