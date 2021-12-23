@@ -22,9 +22,4 @@ public class Tutor {
     @Column(name = "id")
     Long id;
 
-    private RoleNameEnum role;
-
-    public Tutor(RoleNameEnum role) {
-        this.role = role;
-    }
 }
