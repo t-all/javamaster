@@ -1,11 +1,11 @@
-package ru.javamaster.javamaster.models.entity_classes;
+package ru.javamaster.javamaster.models.user;
 
 import javax.persistence.*;
 
+//TODO Класс заглушка для компиляции класса Course
 @Entity
 @Table(name = "invite_tokens")
 public class InviteToken {
-    //Класс заглушка для компиляции класса Course
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

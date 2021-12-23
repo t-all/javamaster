@@ -1,4 +1,4 @@
-package ru.javamaster.javamaster.dao.abstr.model.course;
+package ru.javamaster.javamaster.models.directions.course;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -32,7 +32,6 @@ public class ModuleEntity {
     private Integer position;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "module")
-    @JoinColumn(name = "course_id")
     private List<Chapter> chapters = new ArrayList<>();
 
     @ManyToOne
