@@ -25,9 +25,9 @@ import javax.persistence.Table;
 @ToString
 @Table(name = "direction_task_comment")
 public class DirectionTaskComment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
     private Long id;
 
 }

@@ -26,11 +26,11 @@ import javax.persistence.Table;
 @ToString(of = {"id"})
 @Table(name = "abstract_student_direction_task_answers")
 
-public abstract class AbstractStudentDirectionTaskAnswer {
+public class AbstractStudentDirectionTaskAnswer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Long id;
 
     @ManyToOne
