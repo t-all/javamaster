@@ -30,7 +30,7 @@ public class ModuleEntity {
 
     @Column
     private Integer position;
-    //done
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "module")
     private List<Chapter> chapters = new ArrayList<>();
 
