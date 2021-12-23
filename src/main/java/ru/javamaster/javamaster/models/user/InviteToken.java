@@ -20,7 +20,7 @@ public class InviteToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    Long id;
+    private Long id;
 
     @NotNull
     @Column(name = "hash", unique = true)
@@ -28,11 +28,11 @@ public class InviteToken {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "direction_id")
-    Direction direction;
+    private Direction direction;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tutor_id")
-    Tutor tutor = new Tutor(RoleNameEnum.TUTOR);
+    private Tutor tutor;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id")
