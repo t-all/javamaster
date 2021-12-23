@@ -27,15 +27,15 @@ public class InviteToken {
     private String hash;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "direction_id")
+    @JoinColumn(name = "direction_id")
     Direction direction;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "tutor_id")
+    @JoinColumn(name = "tutor_id")
     Tutor tutor = new Tutor(RoleNameEnum.TUTOR);
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "course_id")
+    @JoinColumn(name = "course_id")
     private Course course;
 
     @Column(name = "curator_email")
