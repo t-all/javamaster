@@ -3,7 +3,6 @@ package ru.javamaster.javamaster.models.user;
 import lombok.*;
 import org.hibernate.annotations.Type;
 import ru.javamaster.javamaster.models.directions.Direction;
-import ru.javamaster.javamaster.models.user.Manager;
 
 import javax.persistence.*;
 import java.time.LocalDate;
