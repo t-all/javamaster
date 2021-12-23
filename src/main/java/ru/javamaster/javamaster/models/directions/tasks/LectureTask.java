@@ -16,5 +16,6 @@ public class LectureTask extends Task{
 
     public LectureTask(Task task) {
         super();
+        task.setType(TaskType.lecture);
     }
 }

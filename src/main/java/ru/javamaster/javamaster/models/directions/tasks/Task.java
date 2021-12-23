@@ -39,8 +39,7 @@ public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id",
-            nullable = false)
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "type")
@@ -64,7 +63,7 @@ public class Task {
     private Boolean isAvailable = true;
 
     @OneToOne(fetch = FetchType.LAZY,
-              targetEntity = ru.javamaster.javamaster.models.directions.task.DirectionTask.class,
+              targetEntity = DirectionTask.class,
               cascade = CascadeType.ALL,
               mappedBy = "task")
     private DirectionTask directionTask;
