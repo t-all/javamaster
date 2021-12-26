@@ -33,7 +33,7 @@ public class ProbablyAnswer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Long id;
 
     @NotNull
@@ -44,7 +44,6 @@ public class ProbablyAnswer {
     private boolean right;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "theory_task")
-    @JoinColumn(name = "probably_answers_id")
+    @JoinColumn(name = "theory_task_id")
     private TheoryTask theoryTask;
 }
