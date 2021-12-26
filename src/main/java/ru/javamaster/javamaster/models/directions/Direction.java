@@ -71,8 +71,7 @@ public class Direction {
     @JoinColumn(name = "directions_id")
     private List<DirectionTask> directionTasks = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "directions_id")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "direction")
     private Set<InviteToken> inviteTokens = new HashSet<>();
 
 }
