@@ -12,10 +12,11 @@ import javax.persistence.Table;
 @Setter
 @Entity
 @Table(name = "lecture_task")
-public class LectureTask extends Task{
+public class LectureTask extends Task {
 
     public LectureTask(Task task) {
         super();
         task.setType(TaskType.lecture);
     }
 }
+

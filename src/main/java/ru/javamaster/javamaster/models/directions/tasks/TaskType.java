@@ -12,3 +12,4 @@ public enum TaskType {
     multi_answer,
     multi_input
 }
+

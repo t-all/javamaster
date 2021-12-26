@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @Setter
 @Entity
 @Table(name = "word_answer_task")
-public class WordAnswerTask extends Task{
+public class WordAnswerTask extends Task {
 
     @Column(name = "answer")
     private String answer;
