@@ -62,9 +62,6 @@ public class Task {
     @Column(name = "is_available")
     private Boolean isAvailable = true;
 
-    @OneToOne(fetch = FetchType.LAZY,
-              targetEntity = DirectionTask.class,
-              cascade = CascadeType.ALL,
-              mappedBy = "task")
+    @OneToOne(mappedBy = "task", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private DirectionTask directionTask;
 }
