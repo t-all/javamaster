@@ -1,14 +1,41 @@
 package ru.javamaster.javamaster.models.user;
 
-import javax.persistence.*;
+import lombok.*;
+import ru.javamaster.javamaster.models.directions.Direction;
+import ru.javamaster.javamaster.models.directions.course.Course;
 
-//TODO Класс заглушка для компиляции класса Course
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(of = {"id", "hash", "curatorEmail"})
+@ToString(of = {"id", "hash", "curatorEmail"})
 @Entity
 @Table(name = "invite_tokens")
 public class InviteToken {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    Long id;
+    private Long id;
+
+    @NotNull
+    @Column(unique = true)
+    private String hash;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "direction_id")
+    private Direction direction;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tutor_id")
+    private Tutor tutor;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id")
+    private Course course;
+
+    private String curatorEmail;
 }
