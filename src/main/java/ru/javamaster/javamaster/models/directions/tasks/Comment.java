@@ -1,4 +1,4 @@
-package ru.javamaster.javamaster.models.direction.course.task.comment;
+package ru.javamaster.javamaster.models.directions.tasks;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
