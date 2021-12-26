@@ -34,12 +34,10 @@ import java.util.Set;
 @EqualsAndHashCode(of = {"id", "student", "directionTask"})
 @ToString(of = {"id", "student", "directionTask"})
 @Table(name = "student_direction_task")
-
 public class StudentDirectionTask {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
@@ -51,7 +49,6 @@ public class StudentDirectionTask {
     private DirectionTask directionTask;
 
     @Type(type = "org.hibernate.type.NumericBooleanType")
-    @Column(name = "is_reset")
     private Boolean isReset = false;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)

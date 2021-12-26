@@ -41,10 +41,8 @@ public class DirectionTask {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
-    @Column(name = "position")
     @Min(value = 1, message = "Minimum value is {value}")
     @NonNull
     private Integer position;
