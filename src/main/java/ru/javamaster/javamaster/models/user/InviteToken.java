@@ -19,11 +19,10 @@ public class InviteToken {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
     @NotNull
-    @Column(name = "hash", unique = true)
+    @Column(unique = true)
     private String hash;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -38,6 +37,5 @@ public class InviteToken {
     @JoinColumn(name = "course_id")
     private Course course;
 
-    @Column(name = "curator_email")
     private String curatorEmail;
 }
