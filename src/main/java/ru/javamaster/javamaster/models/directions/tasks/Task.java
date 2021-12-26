@@ -1,4 +1,4 @@
-package ru.javamaster.javamaster.models.direction.course.task.theory;
+package ru.javamaster.javamaster.models.directions.tasks;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,6 +19,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "tasks")
 public class Task {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

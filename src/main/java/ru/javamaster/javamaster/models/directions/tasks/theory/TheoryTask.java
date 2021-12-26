@@ -1,12 +1,12 @@
-package ru.javamaster.javamaster.models.direction.course.task.theory;
+package ru.javamaster.javamaster.models.directions.tasks.theory;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ru.javamaster.javamaster.models.directions.tasks.Task;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -23,10 +23,10 @@ import java.util.List;
 @Getter
 @Entity
 @Table(name = "theory_tasks")
-public class TheoryTask extends Task{
+public class TheoryTask extends Task {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "theoryTask")
