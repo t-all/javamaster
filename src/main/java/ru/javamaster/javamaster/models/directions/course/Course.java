@@ -86,8 +86,7 @@ public class Course {
     @JoinColumn(name = "course_deadlines_id")
     private List<CourseDeadline> courseDeadlines;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "invite_tokens_id")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "course")
     private Set<InviteToken> inviteTokens;
 
 }

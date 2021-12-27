@@ -1,27 +1,26 @@
 package ru.javamaster.javamaster.dao.impl.model;
 
 import org.hibernate.HibernateException;
+import ru.javamaster.javamaster.dao.impl.exceptions.MergeException;
 
+import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public abstract class ReadOnlyDaoImpl<K extends Serializable, T> {
 
     protected final Class<T> persistentClass;
-
     protected final String getAllQuery;
-
     private final String getQueryWhere;
-
     @PersistenceContext
     protected EntityManager entityManager;
-
     protected String genericClassName;
-
     protected String className;
 
     @SuppressWarnings("unchecked")
@@ -45,6 +44,15 @@ public abstract class ReadOnlyDaoImpl<K extends Serializable, T> {
         return entityManager.createQuery(getAllQuery, persistentClass).getResultList();
     }
 
+    public T getByKeyWithFetchGraph(K id, String graphName) {
+        EntityGraph<?> graph = entityManager.getEntityGraph(graphName);
+
+        Map<String, Object> hints = new HashMap<>();
+        hints.put("javax.persistence.fetchgraph", graph);
+
+        return entityManager.find(persistentClass, id, hints);
+
+    }
 
     public List<T> getByField(String fieldName, String fieldValue) {
         return entityManager.createQuery(getQueryWhere + fieldName + " = :val", persistentClass)
@@ -68,8 +76,7 @@ public abstract class ReadOnlyDaoImpl<K extends Serializable, T> {
         try {
             entityManager.refresh(entity);
         } catch (HibernateException e) {
-            //TODO раскоментировать после создания исключений
-//            throw new MergeException("Failed to refresh an object", e);
+            throw new MergeException("Failed to refresh an object", e);
         }
     }
 
