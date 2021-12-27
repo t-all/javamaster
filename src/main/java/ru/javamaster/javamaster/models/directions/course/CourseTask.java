@@ -46,6 +46,7 @@ public class CourseTask {
     private List<CourseTaskComment> taskComments = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "student_course_task_info_list_id")
+    @JoinColumn(name = "course_tasks_id")
     private List<StudentCourseTaskInfoList> studentCourseTaskInfoList = new ArrayList<>();
+    
 }
