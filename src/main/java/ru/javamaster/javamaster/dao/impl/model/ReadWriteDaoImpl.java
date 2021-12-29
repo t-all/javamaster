@@ -1,38 +1,22 @@
 package ru.javamaster.javamaster.dao.impl.model;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.hibernate.HibernateException;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
-
-import ru.javamaster.javamaster.dao.abstr.model.ReadWriteDao;
 import ru.javamaster.javamaster.dao.impl.exceptions.MergeException;
 import ru.javamaster.javamaster.dao.impl.exceptions.PersistException;
 import ru.javamaster.javamaster.dao.impl.exceptions.RemoveException;
 
-import javax.persistence.EntityManager;
-import javax.persistence.OneToMany;
-import javax.persistence.PersistenceException;
-import javax.persistence.Table;
-import javax.persistence.metamodel.EntityType;
-import javax.persistence.metamodel.Metamodel;
-
 import java.io.Serializable;
-
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.stream.Collectors;
 
-//connect logger from lombok
-@Slf4j
+/**
+ * На всех методах, подразумевающих insert/update/delete запросы в базу ставятся @Transactional(propagation = Propagation.MANDATORY)
+ * Методы чтения не являются транзакционными, и не требуют открытых транзакций для работы
+ * http://akorsa.ru/2017/01/sovety-i-oshibki-v-spring-transactions/
+ */
+
+
 public abstract class ReadWriteDaoImpl<K extends Serializable, T> extends ReadOnlyDaoImpl<K, T> {
 
     @Transactional(propagation = Propagation.MANDATORY)
@@ -153,4 +137,5 @@ public abstract class ReadWriteDaoImpl<K extends Serializable, T> extends ReadOn
                 .setParameter("id", id)
                 .executeUpdate();
     }
+
 }
