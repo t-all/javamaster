@@ -1,11 +1,13 @@
 package ru.javamaster.javamaster.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.javamaster.javamaster.dao.abstr.user.UserDao;
 import ru.javamaster.javamaster.service.abstr.UserService;
 
 import java.util.Optional;
 
+@Service
 public class UserServiceImpl implements UserService {
 
     private UserDao userDao;
