@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 //TODO Класс заглушка для компиляции класса Course
 @Entity
-@Table(name = "student_course_task_info_list")
+@Table(name = "student_course_task_info")
 public class StudentCourseInfo {
 
     @Id
