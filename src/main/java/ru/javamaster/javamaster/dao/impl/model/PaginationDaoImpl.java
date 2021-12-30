@@ -1,5 +1,6 @@
 package ru.javamaster.javamaster.dao.impl.model;
 
+
 import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.javamaster.javamaster.dao.impl.reflection.FilterQueryReflection;

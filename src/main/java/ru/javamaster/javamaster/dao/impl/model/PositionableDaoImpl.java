@@ -285,8 +285,8 @@ public abstract class PositionableDaoImpl<K extends Serializable, T> extends Rea
     public void deleteWithCascadeEnable(K pk) {
         try {
             T entity = (T) entityManager.createQuery(
-                            "SELECT pc FROM " + className + " pc JOIN FETCH pc." + discriminantFieldName + " WHERE pc." + idFieldName + "=:id"
-                    )
+                    "SELECT pc FROM " + className + " pc JOIN FETCH pc." + discriminantFieldName + " WHERE pc." + idFieldName + "=:id"
+            )
                     .setParameter("id", pk)
                     .getSingleResult();
             Object discriminant = ReflectionHelper.getDiscriminant(entity, positionClass, discriminantFieldName);
@@ -318,7 +318,7 @@ public abstract class PositionableDaoImpl<K extends Serializable, T> extends Rea
             Object discriminant = ReflectionHelper.getDiscriminant(entity, positionClass, discriminantFieldName);
             Long discriminantId = ReflectionHelper.getDiscriminantId(discriminant);
             List<Integer> positions = entities.stream().map(ent -> ReflectionHelper.getPosition(ent, positionClass,
-                            positionFieldName))
+                    positionFieldName))
                     .sorted().collect(Collectors.toList());
             super.deleteAll(entities);
             for (int i = 0; i < positions.size(); i++) {

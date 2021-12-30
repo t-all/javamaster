@@ -10,7 +10,7 @@ public interface ReadOnlyDao<K extends Serializable, T> {
 
     T getProxy(K id);
 
-    List getAll();
+    List<T> getAll();
 
     EntityManager getEntityManager();
 
@@ -18,10 +18,11 @@ public interface ReadOnlyDao<K extends Serializable, T> {
 
     void refresh(T entity);
 
-    List getAllByIds(Iterable ids);
+    List<T> getAllByIds(Iterable<K> ids);
 
     boolean isExistAllByIds(K[] ids);
 
-    List getByField(String fieldName, String fieldValue);
+    T getByKeyWithFetchGraph(K id, String graphName);
 
+    List<T> getByField(String fieldName, String fieldValue);
 }

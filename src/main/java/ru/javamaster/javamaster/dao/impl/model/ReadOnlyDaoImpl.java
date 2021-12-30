@@ -1,5 +1,6 @@
 package ru.javamaster.javamaster.dao.impl.model;
 
+
 import org.hibernate.HibernateException;
 import ru.javamaster.javamaster.dao.impl.exceptions.MergeException;
 
@@ -55,9 +56,9 @@ public abstract class ReadOnlyDaoImpl<K extends Serializable, T> {
     }
 
     public List<T> getByField(String fieldName, String fieldValue) {
-        return entityManager.createQuery(getQueryWhere + fieldName + " = :val", persistentClass)
-                .setParameter("val", fieldValue)
-                .getResultList();
+            return entityManager.createQuery(getQueryWhere + fieldName + " = :val", persistentClass)
+                    .setParameter("val", fieldValue)
+                    .getResultList();
     }
 
     public EntityManager getEntityManager() {
@@ -66,9 +67,9 @@ public abstract class ReadOnlyDaoImpl<K extends Serializable, T> {
 
     public boolean isExistById(K id) {
         return entityManager.createQuery(
-                        "SELECT CASE WHEN COUNT(t) > 0 THEN true ELSE false END FROM " + className + " t WHERE t.id =: id"
-                        , Boolean.class
-                ).setParameter("id", id)
+                "SELECT CASE WHEN COUNT(t) > 0 THEN true ELSE false END FROM " + className + " t WHERE t.id =: id"
+                , Boolean.class
+        ).setParameter("id", id)
                 .getSingleResult();
     }
 
