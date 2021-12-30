@@ -6,8 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import ru.javamaster.javamaster.models.directions.course.entity.CourseTaskComment;
-import ru.javamaster.javamaster.models.directions.course.entity.StudentCourseTaskInfoList;
+import ru.javamaster.javamaster.models.directions.tasks.comment.CourseTaskComment;
+import ru.javamaster.javamaster.models.user.student.StudentCourseTaskInfoList;
 import ru.javamaster.javamaster.models.directions.tasks.Task;
 
 import javax.persistence.*;

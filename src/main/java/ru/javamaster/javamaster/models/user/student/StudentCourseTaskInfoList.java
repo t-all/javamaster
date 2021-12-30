@@ -1,18 +1,16 @@
-package ru.javamaster.javamaster.models.directions.course.entity;
+package ru.javamaster.javamaster.models.user.student;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 @Entity
-
-public class CourseTaskComment {
+public class StudentCourseTaskInfoList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Long id;
 
 }
