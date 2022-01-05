@@ -2,12 +2,15 @@ package ru.javamaster.javamaster.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.javamaster.javamaster.dao.abstr.user.UserDao;
+import ru.javamaster.javamaster.models.user.User;
 import ru.javamaster.javamaster.service.abstr.UserService;
 
 import java.util.Optional;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
     private UserDao userDao;
@@ -18,8 +21,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional getEmailByUserId(Long studentId) {
-        return (Optional) userDao.getEmailByUserId(studentId);
+    public Optional<Object> getEmailByUserId(Long studentId) {
+        return userDao.getEmailByUserId(studentId);
     }
 
     @Override
@@ -33,12 +36,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional getUserByEmail(String email) {
-        return (Optional) userDao.getUserByEmail(email);
+    public Optional<Object> getUserByEmail(String email) {
+        return userDao.getUserByEmail(email);
     }
 
     @Override
-    public Optional getIdByEmail(String email) {
-        return (Optional) userDao.getIdByEmail(email);
+    public Optional<Object> getIdByEmail(String email) {
+        return userDao.getIdByEmail(email);
+    }
+
+    @Override
+    public void addUser(User user) {
+        userDao.addUser(user);
     }
 }

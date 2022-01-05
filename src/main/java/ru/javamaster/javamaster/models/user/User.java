@@ -47,10 +47,10 @@ public class User {
 
     private Boolean enable = true;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Role.class)
-    @JoinColumn(name = "role_id")
-    @NonNull
-    private Role role;
+//    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Role.class)
+//    @JoinColumn(name = "role_id")
+//    @NonNull
+//    private Role role;
 
     @Type(type = "org.hibernate.type.LocalDateTimeType")
     private LocalDateTime registrationDate;
@@ -66,7 +66,7 @@ public class User {
     private String localeTag = "ru";
 
     private Boolean avatarIsExist = false;
-
+//
     @OneToOne(fetch = FetchType.LAZY, targetEntity = Inactivation.class,
             mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
     private Inactivation inactivation;
