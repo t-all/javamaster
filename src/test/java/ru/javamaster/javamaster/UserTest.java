@@ -47,12 +47,11 @@ public class UserTest {
     }
 
 //    @Transactional
-    //Проверить HQL-запрос, правильный результат на ошибочный email, при проверке в Postgres запрос вреный
     @Test
     public void isExistByEmail() {
         addUser();
-        userService.isExistByEmail("bob@test.com");
-        System.out.println("test");
+        Boolean result = userService.isExistByEmail("bob2@test.com");
+        assertEquals(true, result);
 
     }
 
