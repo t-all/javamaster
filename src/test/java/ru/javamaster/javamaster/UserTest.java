@@ -52,6 +52,8 @@ public class UserTest {
     public void isExistByEmail() {
         addUser();
         userService.isExistByEmail("bob@test.com");
+        System.out.println("test");
+
     }
 
 //    @Transactional
